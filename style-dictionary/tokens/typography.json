@@ -1,0 +1,100 @@
+{
+  "color": {
+    "Head": {
+      "1-Bold": {
+        "value": {
+          "fontWeight": "Bold",
+          "fontFamily": "Pretendard",
+          "letterSpacing": "0",
+          "fontSize": "32px",
+          "lineHeight": "140"
+        }
+      },
+      "2_Semibold": {
+        "value": {
+          "fontFamily": "pretendard",
+          "fontSize": "24px",
+          "fontWeight": "Semibold",
+          "lineHeight": "140%",
+          "letterSpacing": "0"
+        }
+      },
+      "3_Semibold": {
+        "value": {
+          "fontFamily": "pretendard",
+          "fontWeight": "Semibold",
+          "fontSize": "20px",
+          "lineHeight": "140%",
+          "letterSpacing": "0"
+        }
+      },
+      "4_Bold": {
+        "value": {
+          "fontFamily": "pretendard",
+          "fontWeight": "Bold",
+          "fontSize": "18px",
+          "lineHeight": "140%",
+          "letterSpacing": "0"
+        }
+      }
+    },
+    "Body": {
+      "1_Medium": {
+        "value": {
+          "fontWeight": "Medium",
+          "fontFamily": "pretendard",
+          "fontSize": "16px",
+          "lineHeight": "140%",
+          "letterSpacing": "0"
+        }
+      },
+      "2_Regular": {
+        "value": {
+          "fontFamily": "Pretendard",
+          "fontWeight": "Regular",
+          "fontSize": "16px",
+          "lineHeight": "140%",
+          "letterSpacing": "0"
+        }
+      },
+      "3_Medium": {
+        "value": {
+          "fontFamily": "Pretendard",
+          "fontWeight": "Medium",
+          "fontSize": "14",
+          "lineHeight": "140%",
+          "letterSpacing": "0"
+        }
+      },
+      "4_Regular": {
+        "value": {
+          "fontFamily": "Pretendard",
+          "fontWeight": "Regular",
+          "fontSize": "14px",
+          "lineHeight": "140%",
+          "letterSpacing": "0"
+        }
+      }
+    },
+    "Caption": {
+      "1_Medium": {
+        "value": {
+          "fontWeight": "Medium",
+          "fontFamily": "Pretendard",
+          "fontSize": "13px",
+          "lineHeight": "140%",
+          "letterSpacing": "0"
+        }
+      },
+      "2_Regular": {
+        "value": {
+          "fontWeight": "Regular",
+          "fontFamily": "Pretendard",
+          "fontSize": "13px",
+          "lineHeight": "140%",
+          "letterSpacing": "0"
+        }
+      }
+    }
+  }
+}
