@@ -1,0 +1,27 @@
+.icons {
+  width: 32px;
+  position: relative;
+  max-height: 100%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.floatingButton {
+  width: 100%;
+  position: relative;
+  box-shadow: 0px 3px 16px rgba(210, 210, 210, 0.4);
+  border-radius: 100px;
+  background-color: #ff8b4c;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 14px;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  line-height: normal;
+} 
