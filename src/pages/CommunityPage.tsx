@@ -28,12 +28,12 @@ const ContentArea = styled.div`
   padding-top: 20px;
   padding-bottom: 36px;
   margin-top: 88px; /* TopNavigation 높이 */
-  margin-bottom: 184px; /* BottomNavigation 높이 */
+  margin-bottom: 90px; /* BottomNavigation 높이 */
 `;
 
 const FloatingButtonContainer = styled.div`
   position: fixed;
-  bottom: 214px; /* BottomNavigation 위 30px (BottomNavigation 높이 184px + 30px) */
+  bottom: 120px; /* BottomNavigation 위 30px (BottomNavigation 높이 90px + 30px) */
   left: calc(50% + 100px); /* 화면 중앙에서 우측으로 17px */
   z-index: 1000;
   width: 60px;

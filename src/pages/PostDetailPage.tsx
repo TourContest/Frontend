@@ -1,6 +1,7 @@
 import type { FunctionComponent } from 'react';
 import styled from '@emotion/styled';
 import TopNavigationTopNavigation from './TopNavigationTopNavigation';
+import BottomNavigation from '../components/comu2/BottomNavigation';
 import { FiUser, FiMapPin, FiMap, FiChevronLeft } from 'react-icons/fi';
 
 const PageWrapper = styled.div`
@@ -11,6 +12,7 @@ const PageWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   background: ${({ theme }) => theme.colors.bg[0]};
+  padding-bottom: 150px; /* BottomNavigation(90px) + 댓글입력창(60px) 높이만큼 여백 추가 */
 `;
 const ContentWrapper = styled.div`
   width: 100%;
@@ -278,6 +280,10 @@ const CommentActions = styled.div`
 
 // 6. 댓글 입력창
 const CommentInputContainer = styled.div`
+  position: fixed;
+  bottom: 90px; /* BottomNavigation 높이만큼 위에 배치 */
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
   max-width: 375px;
   background: ${({ theme }) => theme.colors.bg[0]};
@@ -286,6 +292,7 @@ const CommentInputContainer = styled.div`
   display: flex;
   align-items: center;
   border-top: 1px solid ${({ theme }) => theme.colors.gray[200]};
+  z-index: 999;
 `;
 const CommentInputBox = styled.input`
   flex: 1;
@@ -472,6 +479,7 @@ const PostDetailPage: FunctionComponent = () => (
         </CommentInputButton>
       </CommentInputContainer>
     </ContentWrapper>
+    <BottomNavigation />
   </PageWrapper>
 );
 
