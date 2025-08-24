@@ -18,7 +18,7 @@ const G800 = T.ColorGrayScale800;
 
 const BASE_WHITE = T.ColorBase0; // #FFFFFF
 
-const FEATHER_DEG = 30; // 10~30 정도로 조절해봐
+const FEATHER_DEG = 30;
 
 export const Overlay = styled.div`
   position: fixed;
@@ -102,6 +102,8 @@ export const Stamp = styled.div<{ active?: boolean }>`
   place-items: center;
   position: relative;
 
+  border: ${({ active }) => (active ? "none" : `2px dotted ${G300}`)};
+
   &::before {
     content: "";
     position: absolute;
@@ -120,18 +122,16 @@ export const Stamp = styled.div<{ active?: boolean }>`
              ${P400} ${180 + FEATHER_DEG / 2}deg,
              ${P400} 360deg
            )`
-        : `${G300}`};
+        : "none"};
 
-    -webkit-mask: radial-gradient(
-      farthest-side,
-      transparent calc(100% - 2px),
-      #000 calc(100% - 2px)
-    );
-    mask: radial-gradient(
-      farthest-side,
-      transparent calc(100% - 2px),
-      #000 calc(100% - 2px)
-    );
+    -webkit-mask: ${({ active }) =>
+      active
+        ? "radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px))"
+        : "none"};
+    mask: ${({ active }) =>
+      active
+        ? "radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px))"
+        : "none"};
   }
 `;
 
