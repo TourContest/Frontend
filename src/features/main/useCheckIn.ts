@@ -29,5 +29,45 @@ export function useCheckIn() {
 
     let streak = Number(streakStr || 0);
     const lastDate = lastDateStr ? new Date(lastDateStr) : null;
-  });
+
+    // 연속으로 출첵하는지 계산
+    if (!lastDate) {
+      streak = 1; // 처음 출첵
+    } else {
+      const diffDays = Math.floor(
+        today.setHours(0, 0, 0, 0) - new Date(lastDate).setHours(0, 0, 0, 0)
+      );
+      if (diffDays === 1) streak = Math.min(streak + 1, 7);
+      else if (diffDays === 0) {
+        // 같은 날 다시 진입: streak 유지
+      } else streak = 1; // 끊기면 리셋
+    }
+
+    const day = streak; // 1~7
+    const reward = 100 + 20 * (day - 1); // 1일차 100, 2일차 120 ...
+    const alreadyClaimedToday =
+      claimeStr && isSameDay(new Date(claimeStr), new Date());
+
+    // 오늘 아직 수령 안했으면 모달 열기
+    setState({
+      shouldOpen: !alreadyClaimedToday,
+      day,
+      reward,
+      bonus: day === 7 && !alreadyClaimedToday ? 500 : 0,
+    });
+
+    // streak 저장 (같은 날에는 값을 유지해야됨)
+    localStorage.setItem(STAREK_KEY, String(streak));
+    if (!lastDate || !isSameDay(new Date(), lastDate)) {
+      localStorage.setItem(LAST_DATE_KEY, today.toISOString());
+    }
+  }, []);
+
+  const claim = useCallback(() => {
+    // 음.. 실제로는 서버에 출석 보상 지급 API를 호출해야됨..
+    localStorage.setItem(CLAIMED_KEY, new Date().toISOString());
+    return { ok: true };
+  }, []);
+
+  return { state, claim };
 }
