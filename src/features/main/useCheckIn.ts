@@ -65,7 +65,7 @@ export function useCheckIn() {
 
   const claim = useCallback(() => {
     // 음.. 실제로는 서버에 출석 보상 지급 API를 호출해야됨..
-    localStorage.setItem(CLAIMED_KEY, new Date().toISOString());
+    // localStorage.setItem(CLAIMED_KEY, new Date().toISOString()); 디자인 테스트 때문에 잠시 주석..!
     return { ok: true };
   }, []);
 
