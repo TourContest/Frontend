@@ -11,4 +11,4 @@ export const validateBirthYear = (value: string): string => {
     }
 
     return '';
-}
+};

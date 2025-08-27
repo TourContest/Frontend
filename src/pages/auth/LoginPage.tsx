@@ -26,7 +26,7 @@ const LoginPage = () => {
                 return;
             };
 
-            navigate('/')
+            navigate('/main')
 
 
         } catch (error:any) {

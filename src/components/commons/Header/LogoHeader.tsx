@@ -1,4 +1,4 @@
-import Logo from '../../../assets/react.svg'
+import Logo from '../../../assets/Logo.svg'
 import styled from '@emotion/styled';
 
 const LogoWrapper = styled.div`
@@ -8,7 +8,7 @@ const LogoWrapper = styled.div`
 const LogoHeader = () => {
     return (
         <LogoWrapper>
-            <img src={Logo} alt='하루제주' />
+            <img src={Logo} alt='하루제주' style={{ width: "40px"}} />
         </LogoWrapper>
     )
 };

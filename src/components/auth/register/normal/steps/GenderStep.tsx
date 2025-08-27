@@ -14,8 +14,8 @@ const GenderStep = ({
 }: GenderStepProps) => {
 
     const options = [
-        { label: '남자', value: 'male'},
-        { label: '여자', value: 'female'},
+        { label: '남자', value: 'MALE'},
+        { label: '여자', value: 'FEMALE'},
     ]
 
     const { state } = useRegister();

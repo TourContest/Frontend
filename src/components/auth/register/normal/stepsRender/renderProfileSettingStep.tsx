@@ -65,7 +65,7 @@ export function renderProfileSettingStep(
 
     const handleChangeReferral = (value: string) => {
         dispatch({ type: "SET_REFERRAL_CODE", payload: value });
-        dispatch({ type: "SET_REFERRAL_ERROR", payload: value ? '' : '추천인을 입력해주세요. (ex.제주데이)' })
+        dispatch({ type: "SET_REFERRAL_ERROR", payload: value.trim() ? '' : '추천인을 입력해주세요. (ex.제주데이)' })
     }
 
     return(
