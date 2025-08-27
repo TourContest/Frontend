@@ -4,7 +4,9 @@ export const passwordSchema = z
     .string()
     .min(8, "8자리 이상 입력해주세요.")
     .max(12, "12자리 이하로 입력해주세요.")
-    .regex(/[^A-Za-z0-9]/, "특수문자를 포함해야합니다.");
+    .regex(/^[A-Za-z0-9!_@-]+$/, "영문/숫자/!, _, @, -만 사용할 수 있어요.")
+    .regex(/[!_@-]/, "특수문자(!, _, @, -)를 1개 이상 포함해주세요.")
+    .regex(/[A-Za-z0-9]/, "영문 또는 숫자를 1개 이상 포함해주세요.")
 
 export const passwordConfirmSchema = z
     .object({
