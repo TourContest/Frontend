@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useKakaoLoader } from "src/features/main/useKakaoLoader";
 import { useGeolocation } from "src/features/main/useGeolocation";
+import { usePathStats } from "src/features/main/usePathStats";
+import MapHud from "./MapHud";
 import * as T from "src/styles/tokens.js";
 import characterUrl from "src/assets/BlackPig.svg?url";
 
@@ -15,6 +17,7 @@ export default function KaKaoMap({ appKey }: Props) {
   const bubbleRef = useRef<any>(null);
   const shadowRef = useRef<any>(null);
   const initedRef = useRef(false);
+  const { km, steps, formatKm, formatSteps } = usePathStats(lat, lng, accuracy);
 
   useEffect(() => {
     if (
@@ -145,6 +148,19 @@ export default function KaKaoMap({ appKey }: Props) {
 
   return (
     <div style={{ width: "100%", height: "100vh", position: "relative" }}>
+      <MapHud
+        kmText={`${km.toFixed(2)} km`}
+        stepsText={`${steps.toLocaleString()} 걸음`}
+        user={{
+          level: 99,
+          name: "닉네임은8자까지",
+          subtitle: "친밀도 스택 / 00",
+          avatarUrl: characterUrl,
+        }}
+        onProfileClick={() => {
+          // TODO: 프로필 화면 이동
+        }}
+      />
       <div ref={elRef} style={{ width: "100%", height: "100%" }} />
       {loading && <Banner text="현재 위치 확인 중…" />}
       {error && <Banner text={`위치 권한이 필요해요: ${error}`} />}
