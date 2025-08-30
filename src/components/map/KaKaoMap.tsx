@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useKakaoLoader } from "src/features/main/useKakaoLoader";
 import { useGeolocation } from "src/features/main/useGeolocation";
 import { usePathStats } from "src/features/main/usePathStats";
 import MapHud from "./MapHud";
 import * as T from "src/styles/tokens.js";
 import characterUrl from "src/assets/BlackPig.svg?url";
+import ProfileSheet from "src/components/profile/ProfileSheet";
 
 type Props = { appKey: string };
 
@@ -18,6 +19,7 @@ export default function KaKaoMap({ appKey }: Props) {
   const shadowRef = useRef<any>(null);
   const initedRef = useRef(false);
   const { km, steps, formatKm, formatSteps } = usePathStats(lat, lng, accuracy);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   useEffect(() => {
     if (
@@ -158,8 +160,22 @@ export default function KaKaoMap({ appKey }: Props) {
           avatarUrl: characterUrl,
         }}
         onProfileClick={() => {
-          // TODO: 프로필 화면 이동
+          setProfileOpen(true);
         }}
+      />
+      <ProfileSheet
+        open={profileOpen}
+        onClose={() => setProfileOpen(false)}
+        user={{
+          level: 99,
+          name: "닉네임은8자까지",
+          rankLabel: "발바닥",
+          avatarUrl: characterUrl,
+        }}
+        todaySteps={20000}
+        hanlabong={0}
+        onChargeClick={() => console.log("한라봉 채우기")}
+        onEditName={() => console.log("닉네임 편집")}
       />
       <div ref={elRef} style={{ width: "100%", height: "100%" }} />
       {loading && <Banner text="현재 위치 확인 중…" />}
