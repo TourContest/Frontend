@@ -49,6 +49,7 @@ export const GoToLogin = styled.div`
 export const PermissionWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    margin-top: 96px;
     gap: 46px;
     padding: 0 20px;
 `;

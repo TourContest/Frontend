@@ -1,12 +1,7 @@
-import { RegisterProvider } from "src/context/AuthContext"
 import RegisterFlow from "./RegisterFlow"
 
 const RegisterPage = () => {
-    return(
-        <RegisterProvider>
-            <RegisterFlow />
-        </RegisterProvider>
-    );
+    return <RegisterFlow />;
 }
 
 export default RegisterPage;

@@ -7,15 +7,15 @@ import { Head3 } from "src/styles/typography";
 import InputTextField from "src/components/commons/Inputs/TextField";
 import { validateBirthYear } from "src/utils/validation";
 import type { Validation } from "src/components/commons/Inputs/TextField/types";
-import { useRegister } from "src/context/AuthContext";
+import { useRegister } from "src/context/register/RegisterContext";
 
 const GenderStep = ({
     gender, birthYear, onChangeGender, onChangeBirthYear, onNext
 }: GenderStepProps) => {
 
     const options = [
-        { label: '남자', value: 'male'},
-        { label: '여자', value: 'female'},
+        { label: '남자', value: 'MALE'},
+        { label: '여자', value: 'FEMALE'},
     ]
 
     const { state } = useRegister();

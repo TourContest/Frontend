@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom"
 import { authApi } from "src/api/auth";
-import { useRegister } from "src/context/AuthContext";
+import { useRegister } from "src/context/register/RegisterContext";
 
 const KaKaoRedirectPage = () => {
     const navigate = useNavigate();

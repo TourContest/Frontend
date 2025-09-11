@@ -1,4 +1,3 @@
-import LogoHeader from "../commons/Header/LogoHeader";
 import { Guide, PermissionLeft, PermissionList, PermissionListBox, PermissionWrapper } from "./splash.style";
 import { ButtonWrapper } from "../auth/login/login.style";
 import Notification from '../../assets/Alarm.svg';
@@ -21,7 +20,6 @@ interface PermissionCardProps {
 const PermissionCard = ({ onAllow }: PermissionCardProps) => {
     return (
         <>
-            <LogoHeader />
             <PermissionWrapper>
                 <Guide>
                     앱 사용 권한을 위해 <br />

@@ -4,7 +4,7 @@ import type { interestsFormProps } from "./types";
 import { AlertBox, InterestFormWrapper, ThemeItems, ThemeWrapper } from "./form.styles";
 import AlertIcon from "src/assets/Alert.svg";
 
-const interestList = ["데이트", "힐링", "반려동물", "사진 명소", "가족 여행", "자연", "한달 살이", "나홀로 여행", "맛집 탐방", "액티비티", "액티비티", "액티비티"];
+const interestList = ["데이트", "힐링", "반려동물", "사진 명소", "가족 여행", "자연", "한달 살이", "나홀로 여행", "맛집 탐방", "액티비티1", "액티비티2", "액티비티3"];
 
 const InterestForm = ({ themes = [] , selected = [], onSelect }: interestsFormProps) => {
     const handleClick = (item: string) => {
@@ -19,7 +19,7 @@ const InterestForm = ({ themes = [] , selected = [], onSelect }: interestsFormPr
             <AuthCaption style={{ margin: 0 }}>선택한 테마를 참고하여 추천해드릴게요!</AuthCaption>
             <ThemeWrapper>
                 {activeThemes.map((item) => (
-                    <ThemeItems key={item} isActive={selected.includes(item)} onClick={() => handleClick(item)}>
+                    <ThemeItems type="button" key={item} isActive={selected.includes(item)} onClick={() => handleClick(item)}>
                         {item}
                     </ThemeItems>
                 ))}
