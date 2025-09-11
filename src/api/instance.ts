@@ -32,7 +32,7 @@ api.interceptors.request.use((config) => {
 
 // 응답 인터셉터
 api.interceptors.response.use(res => res, error => {
-    if (error.res?.status == 401) {
+    if (error.response?.status == 401) {
         // 로그인 만료
     }
     return Promise.reject(error);
