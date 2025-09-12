@@ -49,7 +49,7 @@ const ProfileSettingForm = ({
                 type="text"
                 placeholder="최대 8자까지 가능해요."
                 value={nickname}
-                maxLength={8}
+                max-length={8}
                 onChange={(e) => onChangeNickname(e.target.value)}
                 onBlur={onBlurNickname}
                 validation={validation}
@@ -72,7 +72,7 @@ const ProfileSettingForm = ({
                     <InputTextField 
                         type="text"
                         value={referralCode || ''}
-                        maxLength={8}
+                        max-length={8}
                         onChange={(e) => onChangeReferral?.(e.target.value)}
                         validation={referralError ? 'negative' : 'normal'}
                         message={referralError}

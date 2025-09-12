@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useMemo, useReducer } from "react";
 import { initialRegisterState, registerReducer } from "src/reducer/registerReducer";
 import type { RegisterAction, RegisterState } from "src/types/RegisterTypes";
 
@@ -8,12 +8,13 @@ interface RegisterContextProps {
 }
 
 const RegisterContext = createContext<RegisterContextProps | undefined>(undefined);
+RegisterContext.displayName = 'RegisterContext';
 
 export const RegisterProvider = ({ children }: { children: React.ReactNode}) => {
     const [state, dispatch] = useReducer(registerReducer, initialRegisterState);
-
+    const value = useMemo(() => ({ state, dispatch }), [state, dispatch]);
     return (
-        <RegisterContext.Provider value={{ state, dispatch }}>
+        <RegisterContext.Provider value={value}>
             {children}
         </RegisterContext.Provider>
     )

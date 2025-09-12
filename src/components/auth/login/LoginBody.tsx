@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import InputTextField from "src/components/commons/Inputs/TextField";
 import type { Validation } from "src/components/commons/Inputs/TextField/types";
-import { validateLoginForm } from "src/features/auth/validation";
+import { validateLoginForm } from "src/utils/validation/authValidation";
 import { Title, Wrapper } from "./login.style";
 
 type Props = {

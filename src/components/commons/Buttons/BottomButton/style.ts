@@ -14,6 +14,8 @@ export const StyledButton = styled('button', {
 })<StyledButtonProps>`
     border: none;
     display: block;
+    font-size: 16px;
+    font-weight: 500;
     line-height: 1.4;
     padding: 13px 0;
     border-radius: 10px;
