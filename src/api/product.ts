@@ -4,7 +4,8 @@ import api from "./instance";
 export type ProductCategory = 'JEJU_TICON' | 'GOODS';
 
 export type OwnedProduct = {
-    id: number;
+    exchangeId: string | number;
+    productId: string | number;
     name: string;
     imageUrl: string;
     category: ProductCategory;
@@ -20,15 +21,18 @@ export const productApi = {
     getProductById: (productId: string | number) => 
         api.get<ApiRes<Product>>(`v1/products/${productId}`),
     exchangeProduct: (productId: string | number, userId: number | string, signal?: AbortSignal) =>
-        api.post<ApiRes<string>>(`v1/products/${productId}/exchange`, null, { params: { userId }, signal }),
+        api.post<ApiRes<string>>(`v1/products/${productId}/exchange`, undefined, { params: { userId }, signal }),
 
     // 상품권 조회
-    getMyProduct: (userId: string, signal?: AbortSignal) =>
+    getMyProduct: (userId: string | number, signal?: AbortSignal) =>
         api.get<ApiRes<OwnedProduct[]>>('v1/products/my', { params: { userId }, signal }),
-    getExchangeDetail: (exchangeId: number, signal?: AbortSignal) =>
+    getExchangeDetail: (exchangeId: string | number, signal?: AbortSignal) =>
         api.get<ApiRes<OwnedProduct>>(`v1/products/exchanges/${exchangeId}/detail`, { signal }),
+    // 굿즈 조회
+    getMyGoods : (userId: string | number, signal?: AbortSignal) =>
+        api.get<ApiRes<OwnedProduct[]>>('v1/products/my/goods', {params: { userId }, signal }),
     
     // 상품 수령
-    acceptToggle: (productId: string | number, signal?: AbortSignal) =>
-        api.post<ApiRes<string>>(`v1/products/${productId}/accept-toggle`, null, { signal })
+    acceptToggle: (exchangeId: string | number, signal?: AbortSignal) =>
+        api.post<ApiRes<string>>(`v1/products/${exchangeId}/accept-toggle`, undefined, { signal })
 };

@@ -37,14 +37,16 @@ export const userApi = {
     }),
 
     // 비밀번호 수정
+    resetPassword: (email: string, newPassword: string, signal?: AbortSignal) =>
+        api.post<ApiRes<string>>('v1/users/auth/find/password/reset', null, { params: { email, newPassword }, signal }),
 
     // 테마 수정
     changeThemes: (themes: string[], signal?: AbortSignal) => 
         api.post<ApiRes<string>>('v1/users/account/themes', themes, { signal }),
 
     // 프로필 수정
-    changeNickname: (nickName: string, signal?: AbortSignal) =>
-        api.post<ApiRes<string>>('v1/users/account/nickname', null, { params: { nickName }, signal }),
+    changeNickname: (nickname: string, signal?: AbortSignal) =>
+        api.post<ApiRes<string>>('v1/users/account/nickname', null, { params: { nickname }, signal }),
     updateProfileImg: (file: File | Blob, signal?: AbortSignal) => {
         const form = new FormData();
         form.append('newProfileImage', file);

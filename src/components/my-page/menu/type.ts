@@ -11,4 +11,5 @@ export type MyPageListProps = {
         challenge: string;
         settings: string;
     }>;
+    onOpenSettings: () => void;
 };

@@ -17,7 +17,7 @@ const MyProfileWrap = () => {
 
     return(
         <MyProfileWrapper>
-            <MyProfileBox>
+            <MyProfileBox onClick={() => navigate('/mypage/account/profile')}>
                 <ProfileImgWrapper>
                     <img 
                         src={profile}

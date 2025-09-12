@@ -9,7 +9,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({ id, imageUrl, name, ha
     const hasImg = !!src && !imgError;
 
     return (
-        <ProductCard onClick={() => onClick?.(id)}>
+        <ProductCard onClick={onClick}>
             <ProductImgWrapper checker={!hasImg}>
                 {hasImg && (
                     <img 

@@ -15,6 +15,7 @@ import { Payment } from "src/components/inapp/Payment";
 import HanlabongShortageOverlay from "src/components/inapp/HanlabongShortageOveray";
 import ShortageModal from "src/components/modal/ShortageModal";
 import ChargePopup from "src/components/popup/ChargePopup";
+import ErrorToast from "src/components/commons/Toast";
 
 type AreaState = { category?: ProductCategory}
 
@@ -31,6 +32,14 @@ const ProductShopPage = () => {
     const { data: product, isLoading } = useProduct(productId);
     const { data: me } = useSessionMe();
     const exchange = useExchangeProduct();
+
+    // 에러 토스트 (중복 구매)
+    const [toast, setToast] = useState({ visible: false, message: ''});
+    const showToast = (msg: string) => setToast({ visible: true, message: msg });
+    // 예시 A) me 안에 플래그가 있는 경우
+    const hasJejuTicon = (me as any)?.jejuTiconOwned === true 
+    // 예시 B) me에 보유 목록이 있는 경우
+    || Array.isArray((me as any)?.ownedProducts) && (me as any).ownedProducts.some((p: any) => p?.category === "JEJU_TICON");
 
     // detail(기본) → payment
     const [step, setStep] = useState<'detail' | 'payment'>('detail');
@@ -50,13 +59,18 @@ const ProductShopPage = () => {
     const handleBuyClick = async () => {
         if(!product || !me?.userId) return;
 
+         if (fallbackCategory === 'JEJU_TICON' && hasJejuTicon) {
+            showToast('이미 보유 중인 제주 티콘이라 구매할 수 없어요.');
+            return;
+        }
+
         if (step === 'detail') {
             setStep('payment');
             return;
         };
 
         try {
-            await exchange.mutateAsync({ productId: product.id, userId: me.userId });
+            await exchange.mutateAsync({ productId: product.productId, userId: me.userId });
             // 성공 후 이동 처리
             navigate('/mypage');
         } catch(error: any) {

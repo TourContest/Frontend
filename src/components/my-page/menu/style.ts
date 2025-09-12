@@ -26,11 +26,10 @@ export const ProfileImgWrapper = styled.div`
     overflow: hidden;
 
     img {
-        width: 90%;
-        height: 90%;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
-        position: relative;
-        top: 10px;
+        object-position: center;
     }
 `;
 
@@ -160,5 +159,27 @@ export const SwitchContainer = styled.label<{ checked: boolean }>`
             border-radius: 50%;
             transform: translateX(${({ checked }) => checked ? "15.5px" : "0" })
         }
+    }
+`;
+
+export const MenuBack = styled.div`
+    position: fixed; inset: 0;
+    background: #fff;
+    z-index:11;
+`;
+
+export const SettingMenuBox = styled.ul`
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #000;
+
+    li {
+        padding: 17.5px 0;
+        display: flex;
+        justify-content: space-between;
     }
 `;

@@ -1,9 +1,33 @@
 import BottomButton from "src/components/commons/Buttons/BottomButton";
+import { useMemo, useState } from "react";
 import { Bar, CouponDetailWrapper } from "../style";
 import { AvailablePlace, CouponAlert, CouponBox, CouponInformation, CouponName, ProductImgWrapper } from "./style";
 import type { CouponDetailProps } from "./type";
+import { useSessionMe } from "src/features/my-page/useSessionMe";
+import { useAcceptToggle } from "src/features/my-page/useAcceptToggle";
 
 export const CouponDetail: React.FC<CouponDetailProps> = ({ coupon }) => {
+    const { data: me } = useSessionMe();
+    const exchangeId = coupon.exchangeId;
+    const [accepted, setAccepted] = useState<boolean>(coupon.accepted);
+    const { mutateAsync, isPending } = useAcceptToggle();
+
+    const disabled = useMemo(() => accepted || isPending, [accepted, isPending]);
+
+    const onAccept = async () => {
+        if (!exchangeId) {
+            console.error('[accept-toggle] exchangeId 없음', coupon);
+            return;
+        }
+
+        try {
+            await mutateAsync({ exchangeId: coupon.exchangeId, userId: me?.userId ?? '' });
+            setAccepted(true);
+        } catch(err) {
+            console.error('[accept-toggle ERR]: ', err)
+        }
+    }
+
     return (
         <CouponDetailWrapper>
             <CouponBox>
@@ -30,14 +54,14 @@ export const CouponDetail: React.FC<CouponDetailProps> = ({ coupon }) => {
                     </CouponAlert>
                 </CouponInformation>
                 <BottomButton
-                    type="submit"
+                    type="button"
                     size ='large'
-                    // disabled={!isFormValid}
+                    disabled={disabled ||isPending || !exchangeId}
                     form="login-form"
-                    // onClick={onSubmit}
+                    onClick={onAccept}
                     style={{ width: "100%" }}
                 >
-                    수령하기
+                    {accepted ? '수령완료' : (isPending ? '처리중' : '수령하기')}
                 </BottomButton>
             </CouponBox>
         </CouponDetailWrapper>

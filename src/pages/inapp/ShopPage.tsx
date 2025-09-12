@@ -19,7 +19,7 @@ const ShopPage = () => {
     const navigate = useNavigate();
 
     const handleClickItem = useCallback(
-        (id: number) => navigate(`/inapp/shop/${id}`, { state: { category }}),
+        (productId: string | number) => navigate(`/inapp/shop/${productId}`, { state: { category }}),
         [navigate, category]
     );
 

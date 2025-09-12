@@ -19,12 +19,17 @@ const MyPageMenu: React.FC<MyPageListProps> = ({
     toggleNoti,
     onNavigate,
     settingMode = 'navigate',
-    routes
+    routes,
+    onOpenSettings,
 }) => {
     const navigate= useNavigate();
     const route = { ...defaultRoutes, ...routes } // 전달된 route와 병합
     const go = (path: string) => (onNavigate ?? navigate)(path);
 
+    const handleClickSettings = () => {
+        if (settingMode === "navigate") go(route.settings);
+        else onOpenSettings(); // 'positive'면 시트/오버레이 열기
+    };
     return(
         <MenuWrapper>
             <MenuRow onClick={() => go(route.community)}>
@@ -48,7 +53,7 @@ const MyPageMenu: React.FC<MyPageListProps> = ({
                 </MenuBox>
                 <Switch checked={!!notiEnabled} onChange={(v) => toggleNoti?.(v)} label="알림설정"/>
             </MenuRow>
-            <MenuRow onClick={() => go(route.settings)}>
+            <MenuRow onClick={handleClickSettings}>
                 <MenuBox>
                     <img src={Setting}/>
                     설정

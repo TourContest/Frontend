@@ -1,38 +1,38 @@
-import type { OwnedProduct } from "src/api/product";
-
 export type Product = {
-    id: number;
+    productId: string | number;
     name: string;
     imageUrl?: string | null;
     hallabongCost?: number;
     stock?: number;
 };
 
+export type OwnedProduct = import('src/api/product').OwnedProduct;
+
 export type ShopListProps = {
     mode: "shop"
     products: Product[];
-    onClickItem?: (id: number) => void;
+    onClickItem?: (productId: string | number) => void;
 };
 
 export type OwnedListProps = {
     mode: "owned"
     products: OwnedProduct[];
-    onClickItem?: (id: number) => void;
+    onClickItem?: (exchangeId: string | number) => void;
 }
 
 export type ProductListProps = ShopListProps | OwnedListProps;
 
 export type ProductItemProps = {
-    id: number;
+    id: string | number;
     imageUrl?: string | null;
     name: string;
     hallabongCost?: number;   
-    onClick?: (id: number) => void;
+    onClick?: () => void;
 };
 
 export type CouponDetailData = import("src/api/product").OwnedProduct;
 
 export type CouponDetailProps = {
     coupon: CouponDetailData;
-    // onClick?: (id: number) => void;
+    // onClick?: (productId: string | number, coupon: CouponDetailData) => void;
 }

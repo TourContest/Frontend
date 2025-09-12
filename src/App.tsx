@@ -5,7 +5,6 @@ import { theme } from "./styles/theme";
 import GlobalStyles from "./styles/global";
 import TestPage from "./pages/TestPage";
 import SplashPage from "./pages/splash/SplashPage";
-// import LanguageSelectorPage from './pages/splash/LanguageSettingPage';
 import PermissionPage from "./pages/splash/PermissionPage";
 import RegisterChoicePage from "./pages/splash/RegisterChoicePage";
 import RegisterPage from "./pages/auth/register/normal";
@@ -17,6 +16,9 @@ import ShopPage from "./pages/inapp/ShopPage";
 import MyCouponsPage from "./pages/mypage/mycoupon/MyCouponsPage";
 import MyCouponDetailPage from "./pages/mypage/mycoupon/MyCouponDetailPage";
 import ProductShopPage from "./pages/inapp/ProductDetailPage";
+import PasswordResetPage from "./pages/mypage/accountSetting/PasswordResetPage";
+import ThemeEditPage from "./pages/mypage/accountSetting/ThemeEditPage";
+import ProfileEditPage from "./pages/mypage/accountSetting/ProfileEditPage";
 
 function App() {
   return (
@@ -30,7 +32,6 @@ function App() {
             {/* 스플래시 */}
             <Route path="/splash" element={<SplashPage />} />
             <Route path="/splash/permission" element={<PermissionPage />} />
-            {/* <Route path='/splash/language' element={<LanguageSelectorPage/>}/> */}
             <Route
               path="/splash/register-choice"
               element={
@@ -60,6 +61,9 @@ function App() {
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/mypage/mycoupons" element={<MyCouponsPage />} />
             <Route path="/mypage/mycoupons/:exchangeId" element={<MyCouponDetailPage />} />
+            <Route path="/mypage/account/password" element={<PasswordResetPage />} />
+            <Route path="/mypage/account/theme" element={<ThemeEditPage />} />
+            <Route path="/mypage/account/profile" element={<ProfileEditPage />} />
 
             {/* in-app */}
             <Route path="/inapp/shop" element={<ShopPage />}/>
