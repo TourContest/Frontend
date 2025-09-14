@@ -36,3 +36,8 @@ export const productApi = {
     acceptToggle: (exchangeId: string | number, signal?: AbortSignal) =>
         api.post<ApiRes<string>>(`v1/products/${exchangeId}/accept-toggle`, undefined, { signal })
 };
+
+export const stepsApi = {
+  convert: (requestedPoints: number, signal?: AbortSignal) =>
+    api.post<ApiRes<ConvertRes>>("/v1/steps/convert", { requestedPoints }, { signal }),
+};
