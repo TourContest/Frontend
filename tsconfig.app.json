@@ -20,6 +20,7 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    // "noImplicitAny": false, //any 관련 에러 우선 끕니다..(theme이 갑자기 에러가 계속 나서)
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
@@ -31,5 +32,5 @@
     "typeRoots": ["./src/types", "./node_modules/@types"]
     
   },
-  "include": ["src", "src/types"]
+  "include": ["src", "src/types", "src/**/*.ts", "src/**/*.tsx"]
 }

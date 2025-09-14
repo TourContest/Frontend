@@ -19,6 +19,9 @@ import ProductShopPage from "./pages/inapp/ProductDetailPage";
 import PasswordResetPage from "./pages/mypage/accountSetting/PasswordResetPage";
 import ThemeEditPage from "./pages/mypage/accountSetting/ThemeEditPage";
 import ProfileEditPage from "./pages/mypage/accountSetting/ProfileEditPage";
+import CommunityLayout from "./pages/community/CommunityLayout";
+import CommunityPage from "./pages/community/CommunityPage";
+import PostDetailPage from "./pages/PostDetailPage";
 
 function App() {
   return (
@@ -56,6 +59,12 @@ function App() {
 
             {/* Main 진입 시 */}
             <Route path="/main" element={<Main />} />
+
+            {/* community */}
+            <Route element={<CommunityLayout />}>
+              <Route path="/community" element={<CommunityPage />} />
+              <Route path="/post/:id" element={<PostDetailPage />} />
+            </Route>
 
             {/* my page*/}
             <Route path="/mypage" element={<MyPage />} />

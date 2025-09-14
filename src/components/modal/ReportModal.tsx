@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { FiX } from 'react-icons/fi';
-import { theme } from '../../../styles/theme';
+import { theme } from '../../styles/theme';
 
 const ModalOverlay = styled.div`
   position: fixed;

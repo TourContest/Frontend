@@ -13,7 +13,7 @@ export interface Post {
   comments?: number;
 }
 
-interface CommunityState {
+export interface CommunityState {
   posts: Post[];
   activeTab: 'latest' | 'popular';
   currentPage: number;
