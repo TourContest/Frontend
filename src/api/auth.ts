@@ -17,7 +17,6 @@ export const authApi = {
         api.post('/v1/users/register/password', data),
     checkNicknameDuplicate: (nickname: string) => 
         api.get('/v1/users/register/check/nickname', { params: { nickname }}),
-
     registerFinal: (
         payload: {
             email: string;
@@ -37,7 +36,7 @@ export const authApi = {
             if (profileFile) fd.append('profile', profileFile, profileFile.name);
 
             return api.post('/v1/users/register/final', fd)
-            
+
         },
 
     registerFinalKaKao: (

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { authApi } from "src/api/auth";
 import { renderRegisterStep } from "src/components/auth/register/normal/stepsRender";
 import StepBar from "src/components/auth/register/StepBar";
-import { useRegister } from "src/context/AuthContext"
+import { useRegister } from "src/context/register/RegisterContext"
 
 const RegisterFlow = () => {
     const { state, dispatch } = useRegister();
@@ -44,16 +44,17 @@ const RegisterFlow = () => {
                     }; 
     
                     const res = await authApi.registerFinalKaKao(kakaoPayload);
-                    if (res.data?.success) {
+    
+                    if(res.data.success) {
                         navigate('/main');
                         return;
                     } else {
                         console.error('회원가입 실패:', res.data?.message);
                         return;
-                    };
+                    }
                 }
-
-                // 일반
+    
+                 // 일반
                 const profileFile = await buildProfileFile();
                 const payload = {
                     email: state.email,
@@ -72,6 +73,7 @@ const RegisterFlow = () => {
                     console.error('회원가입 실패:', res.data?.message);
                     return;
                 }    
+
             } catch(err) {
                 console.error('회원가입 에러:', err);
             } finally {

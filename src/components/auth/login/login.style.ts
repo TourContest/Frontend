@@ -28,6 +28,7 @@ export const ButtonWrapper = styled.div`
     padding: 12px 20px 46px 20px;
     display: flex;
     gap: 15px;
+    background: #fff;
     box-shadow: 0 3px 16px rgba(210, 210, 210, 0.4);
     border-top: .5px solid ${({ theme }) => theme.colors.gray[200]}
 `;

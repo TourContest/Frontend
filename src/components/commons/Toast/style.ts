@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 
 export const ToastWrapper = styled.div`
     position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
     bottom: 125px;
     background-color:${({ theme }) => theme.colors.gray[800]};
     color: ${({ theme }) => theme.colors.bg[0]};

@@ -26,7 +26,7 @@ api.interceptors.request.use((config) => {
         if ((header as any)?.set) (header as AxiosHeaders).set("Content-Type", "application/json");
         else (header as any)["Content-Type"] = "application/json";
     }
-
+    
     return config;
 }, error => Promise.reject(error));
 
