@@ -17,7 +17,7 @@ import { useMe } from "src/features/user/useMe";
 import { useSaveSteps } from "src/features/steps/useSaveSteps";
 import { useNearbySpots } from "src/features/markers/useNearbySpots";
 import { challengeApi } from "src/api/challengeApi";
-// Removed duplicate and incorrect import
+import ChargePopup from "src/components/popup/ChargePopup";
 import ConfirmModal from "../../components/modal/confirm/ConfirmModal";
 
 function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number) {
@@ -57,6 +57,8 @@ export default function KaKaoMap({
     level: "spot" | "challenge";
   } | null>(null);
   const [cameraOpen, setCameraOpen] = useState(false);
+  const [chargeOpen, setChargeOpen] = useState(false);
+  const [mapReady, setMapReady] = useState(false);
 
   const center = useMemo(
     () => (lat != null && lng != null ? { lat, lng } : undefined),
@@ -153,34 +155,50 @@ export default function KaKaoMap({
   const managerRef = useRef<MarkerManager | null>(null);
 
   useEffect(() => {
-    if (!ready || !elRef.current || initedRef.current) return;
+    if (!ready || !elRef.current || mapReady) return;
 
-    const center = new kakao.maps.LatLng(
-      Number(queryCenter.lat),
-      Number(queryCenter.lng)
-    );
-    const map = new kakao.maps.Map(elRef.current, { center, level: 8 }); // 제주 한눈에 보이게 약간 넓게
-    mapRef.current = map;
-    initedRef.current = true;
-    setTimeout(() => map.relayout(), 0);
-  }, [ready, queryCenter.lat, queryCenter.lng]);
+    // 카카오 SDK 로딩 완료 후 보장
+    kakao.maps.load(() => {
+      const center = new kakao.maps.LatLng(
+        Number(queryCenter.lat),
+        Number(queryCenter.lng)
+      );
+      const map = new kakao.maps.Map(elRef.current!, { center, level: 8 }); // 제주 한눈에
+      mapRef.current = map;
 
-  useEffect(() => {
-    if (!mapRef.current) return;
-    if (!managerRef.current) {
-      managerRef.current = new MarkerManager(mapRef.current, {
+      // MarkerManager도 여기서 1회 생성
+      managerRef.current = new MarkerManager(map, {
         onClick: (item) => {
           setSelectedItem({ id: item.id, level: item.level });
           setCameraOpen(true);
         },
       });
-    }
-    managerRef.current.sync(markers, queryCenter, 120_000); // 120km 기준 표시
-  }, [markers, queryCenter.lat, queryCenter.lng]);
+
+      setMapReady(true);
+      setTimeout(() => map.relayout(), 0);
+    });
+  }, [ready, queryCenter.lat, queryCenter.lng, mapReady]);
+
+  // useEffect(() => {
+  //   if (!mapRef.current) return;
+  //   if (!managerRef.current) {
+  //     managerRef.current = new MarkerManager(mapRef.current, {
+  //       onClick: (item) => {
+  //         setSelectedItem({ id: item.id, level: item.level });
+  //         setCameraOpen(true);
+  //       },
+  //     });
+  //   }
+  //   managerRef.current.sync(markers, queryCenter, 120_000); // 120km 기준 표시
+  // }, [markers, queryCenter.lat, queryCenter.lng]);
+  useEffect(() => {
+    if (!mapReady || !managerRef.current) return;
+    managerRef.current.sync(markers, queryCenter, 120_000); // 120km
+  }, [mapReady, markers, queryCenter.lat, queryCenter.lng]);
 
   // 🔄 캐릭터 + 말풍선 + 그림자 오버레이 (기존 이펙트 전부 교체)
   useEffect(() => {
-    if (!mapRef.current) return;
+    if (!mapReady || !mapRef.current) return;
 
     const map = mapRef.current;
     const pos = new kakao.maps.LatLng(
@@ -288,6 +306,7 @@ export default function KaKaoMap({
     }
     // deps: queryCenter가 바뀌면(제주<->내위치) 오버레이가 같이 이동
   }, [
+    mapReady,
     queryCenter.lat,
     queryCenter.lng,
     lat,
@@ -422,6 +441,7 @@ export default function KaKaoMap({
         }}
         onProfileClick={() => setProfileOpen(true)}
       />
+
       <ProfileSheet
         open={profileOpen}
         onClose={() => setProfileOpen(false)}
@@ -432,9 +452,7 @@ export default function KaKaoMap({
         }}
         todaySteps={me?.totalSteps ?? 0}
         hanlabong={me?.hallabong ?? 0}
-        onChargeClick={() =>
-          window.dispatchEvent(new CustomEvent("me:refresh"))
-        }
+        onChargeClick={() => setChargeOpen(true)}
         onEditName={() => {}}
       />
 
@@ -459,6 +477,17 @@ export default function KaKaoMap({
             setCameraOpen(true);
           }
           dismissCert();
+        }}
+      />
+
+      <ChargePopup
+        open={chargeOpen}
+        onClose={() => setChargeOpen(false)}
+        onSubmit={() => {
+          // TODO: 충전/결제 API 연동 지점
+          setChargeOpen(false);
+          // 충전 후 내 프로필(한라봉) 최신화
+          window.dispatchEvent(new CustomEvent("me:refresh"));
         }}
       />
 

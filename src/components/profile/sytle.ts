@@ -15,7 +15,7 @@ const G800 = T.ColorGrayScale800;
 export const Overlay = styled.div`
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: 10;
   background: rgba(0, 0, 0, 0.45);
   display: grid;
   place-items: end;
