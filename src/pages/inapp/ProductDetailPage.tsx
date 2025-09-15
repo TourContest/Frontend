@@ -76,11 +76,28 @@ const ProductShopPage = () => {
         } catch(error: any) {
             // 에러 오버레이
             const errorCode = error?.response?.data?.errorCode;
-            const message = error?.response?.data?.message;
+            const message = 
+                error?.response?.data?.message   // 서버 응답 메시지
+                ?? error?.message                // JS Error 객체 메시지
+                ?? "구매에 실패했습니다.";        // 최종 fallback
 
-            if (errorCode === "INSUFFICIENT_HALLABONG") setShortage(true);
+
+             if (errorCode === "INSUFFICIENT_HALLABONG") {
+                setShortage(true);
+            } else if (error?.response?.status === 500) {
+                if (fallbackCategory === 'JEJU_TICON' || product?.category === 'JEJU_TICON') {
+                    showToast('이미 구매한 제주티콘은 중복 구매할 수 없습니다.');
+                } else {
+                showToast(message);
+                }
+            } else {
+                showToast(message);
+            }
         }
-    }
+    };
+
+    console.log('Toast state:', toast); // 디버깅용 - 컴포넌트에서 토스트 상태 확인
+
 
     return(
         <>
@@ -129,6 +146,14 @@ const ProductShopPage = () => {
                 open={openPopup}
                 onClose={() => setOpenPopup(false)}
             />
+            {console.log('Rendering toast:', toast.visible, toast.message)}
+            {toast.visible && (
+                <ErrorToast 
+                    message={toast.message}
+                    visible={toast.visible}
+                    onClose={() => setToast({ visible: false, message: '' })}
+                />
+            )}
         </>
     )
 };

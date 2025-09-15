@@ -17,7 +17,19 @@ export const useExchangeProduct = () => {
         },
         onSuccess: async (_data, vars) => {
             // 성공 시 내 상품권 갱신
-            await qc.invalidateQueries({ queryKey: QK.myProducts(vars.userId) });
+            await qc.invalidateQueries({
+                queryKey: QK.mMyGoods,
+            });
+
+            // 내 포인트(한라봉) 최신화
+            await qc.invalidateQueries({
+                queryKey: QK.sessionMe,
+            });
+
+            // 상품 상세(재고 차감) 최신화
+            await qc.invalidateQueries({
+                queryKey: QK.product(String(vars.productId)),
+            });
         }
     })
 };
