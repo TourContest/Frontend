@@ -11,6 +11,7 @@ import RegisterPage from "./pages/auth/register/normal";
 import LoginPage from "./pages/auth/LoginPage";
 import KaKaoRegisterPage from "./pages/auth/register/kakao";
 import Main from "./pages/main/Main";
+import ChallengePage from "./pages/challenge/ChallengePage";
 import MyPage from "./pages/mypage/MyPage";
 import ShopPage from "./pages/inapp/ShopPage";
 import MyCouponsPage from "./pages/mypage/mycoupon/MyCouponsPage";
@@ -59,6 +60,7 @@ function App() {
 
             {/* Main 진입 시 */}
             <Route path="/main" element={<Main />} />
+            <Route path="/challenge" element={<ChallengePage />} />
 
             {/* community */}
             <Route element={<CommunityLayout />}>
@@ -80,7 +82,6 @@ function App() {
           </Routes>
         </BrowserRouter>
       </AuthProvider>
-
     </ThemeProvider>
   );
 }

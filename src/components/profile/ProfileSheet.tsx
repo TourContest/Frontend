@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import * as S from "./sytle";
 
@@ -5,13 +6,12 @@ type Props = {
   open: boolean;
   onClose: () => void;
   user: {
-    level: number;
     name: string;
-    rankLabel: string; // 예: "발바닥"
-    avatarUrl: string; // 큰 캐릭터 이미지
+    rankLabel: string;
+    avatarUrl: string;
   };
-  todaySteps: number; // 20000
-  hanlabong: number; // 0 ~
+  todaySteps: number;
+  hanlabong: number;
   onChargeClick?: () => void;
   onEditName?: () => void;
 };
@@ -25,6 +25,7 @@ export default function ProfileSheet({
   onChargeClick,
   onEditName,
 }: Props) {
+  const navigate = useNavigate();
   // 스크롤 막기
   useEffect(() => {
     if (!open) return;
@@ -97,7 +98,8 @@ export default function ProfileSheet({
           <S.StatCard>
             <S.StatLabel>오늘의 걸음</S.StatLabel>
             <S.StatValue>
-              <S.Emph>{todaySteps.toLocaleString()}</S.Emph> 걸음
+              <S.Emph>{todaySteps.toLocaleString()}</S.Emph>{" "}
+              <S.Walk>걸음</S.Walk>
             </S.StatValue>
           </S.StatCard>
 
@@ -109,7 +111,13 @@ export default function ProfileSheet({
 
         {/* 리스트: 진행 중인 챌린지 / 상점 바로가기 */}
         <S.List>
-          <S.ListItem role="button">
+          <S.ListItem
+            role="button"
+            onClick={() => {
+              navigate("/challenge?tab=doing");
+              onClose?.();
+            }}
+          >
             <S.TrophyIcon></S.TrophyIcon>
             <S.ListText>진행 중인 챌린지</S.ListText>
             <S.ChevronRight viewBox="0 0 24 24">
