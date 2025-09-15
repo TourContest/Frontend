@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+
 import * as S from "./sytle";
 
 type Props = {
