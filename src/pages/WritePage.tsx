@@ -4,7 +4,7 @@ import { FiChevronLeft } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ButtonsChip from '../components/commons/ButtonsChip';
-import Rectangle53 from '../components/commons/Rectangle53';
+// import Rectangle53 from '../components/commons/Rectangle53';
 import Icons from '../components/commons/Icons';
 
 const PageWrapper = styled.div`
@@ -194,7 +194,7 @@ const WritePage: FunctionComponent = () => {
         <UploadSection>
           <UploadTitle>사진 업로드</UploadTitle>
           <UploadImagesRow>
-            {images.map((img, idx) => <UploadBox key={idx}><Rectangle53 /></UploadBox>)}
+            {/* {images.map((img, idx) => <UploadBox key={idx}><Rectangle53 /></UploadBox>)} */}
             {images.length < 3 && <AddButton onClick={handleAddImage}>+</AddButton>}
             {[...Array(3 - images.length - (images.length < 3 ? 1 : 0))].map((_, idx) => <UploadBox key={`empty-${idx}`} />)}
           </UploadImagesRow>

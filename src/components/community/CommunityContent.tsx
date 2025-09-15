@@ -9,7 +9,7 @@ import { ContentContainer, PostsContainer, TabButton, TabContainer } from './sty
 
 const CommunityContent: React.FC = () => {
   const dispatch = useDispatch();
-  const { activeTab, loading, currentPage, totalPages } = useSelector((state: RootState) => state.community);
+  const { activeTab, loading } = useSelector((state: RootState) => state.community);
   const currentPagePosts = useSelector(selectCurrentPagePosts);
   const { state: contextState } = useCommunity();
 

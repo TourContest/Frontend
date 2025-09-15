@@ -21,7 +21,7 @@ import ThemeEditPage from "./pages/mypage/accountSetting/ThemeEditPage";
 import ProfileEditPage from "./pages/mypage/accountSetting/ProfileEditPage";
 import CommunityLayout from "./pages/community/CommunityLayout";
 import CommunityPage from "./pages/community/CommunityPage";
-import PostDetailPage from "./pages/PostDetailPage";
+import PostDetailPage from "./pages/community/PostDetailPage";
 
 function App() {
   return (
