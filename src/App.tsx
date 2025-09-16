@@ -22,6 +22,7 @@ import ProfileEditPage from "./pages/mypage/accountSetting/ProfileEditPage";
 import CommunityLayout from "./pages/community/CommunityLayout";
 import CommunityPage from "./pages/community/CommunityPage";
 import PostDetailPage from "./pages/community/PostDetailPage";
+import SpotWritePage from "./pages/community/PostWritePage";
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
             <Route element={<CommunityLayout />}>
               <Route path="/community" element={<CommunityPage />} />
               <Route path="/post/:id" element={<PostDetailPage />} />
+              <Route path="/write" element={<SpotWritePage />} />
             </Route>
 
             {/* my page*/}

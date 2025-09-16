@@ -2,12 +2,12 @@ import styled from '@emotion/styled';
 
 export const ToastWrapper = styled.div`
     position: fixed;
-    left: 50%;
+    left: 50%; bottom: 125px;
     transform: translateX(-50%);
-    bottom: 125px;
     background-color:${({ theme }) => theme.colors.gray[800]};
     color: ${({ theme }) => theme.colors.bg[0]};
     border-radius: 14px;
+    width: calc(100% - 20px);
     padding: 16px 18px 16px 16px;
     display: flex;
     align-items: center;
