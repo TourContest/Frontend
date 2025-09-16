@@ -14,9 +14,8 @@ import {
 import * as T from "src/styles/tokens.js";
 
 type User = {
-  level: number;
+  rankLabel: string;
   name: string;
-  subtitle: string;
   avatarUrl: string;
 };
 
@@ -50,9 +49,8 @@ export default function MapHud({
         </Thumb>
 
         <Right>
-          <LevelPill>{`LV. ${user.level}`}</LevelPill>
+          <LevelPill>{`${user.rankLabel}`}</LevelPill>
           <Name>{user.name}</Name>
-          <Sub>{user.subtitle}</Sub>
           <Chevron viewBox="0 0 24 24" aria-hidden>
             <path
               d="M9 6l6 6-6 6"
