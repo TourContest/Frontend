@@ -54,6 +54,4 @@ export const userApi = {
     },
     deleteProfileImg: (signal?: AbortSignal) =>
         api.delete<ApiRes<string>>('v1/users/profile', { signal }),
-
-
 }

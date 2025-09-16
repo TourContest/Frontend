@@ -1,4 +1,3 @@
-// src/api/spotsApi.ts
 import api from "./instance";
 
 export type NearbySpot = {
@@ -13,7 +12,21 @@ export type NearbySpot = {
   challengeOngoing?: boolean;
 };
 
+export interface SpotMapRes {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  type: "POST" | "SPOT" | "CHALLENGE" | string;
+};
+
 export const spotsApi = {
   getNearby: (lat: number, lng: number, radiusKm?: number) =>
     api.get("api/spots/nearby", { params: { lat, lng, radiusKm } }),
+  
+  search: (query: string) =>
+    api.get<{ success: boolean; data: SpotMapRes[] }>(
+      "api/spots/map/search",
+      { params: { query } }
+    ),
 };
