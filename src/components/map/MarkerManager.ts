@@ -88,14 +88,14 @@ export class MarkerManager {
       if (exist) {
         exist.setPosition(pos);
         exist.setImage(this.getImage(it.level));
-        exist.setZIndex(it.level === "CHALLENGE" ? 3 : 2);
+        exist.setZIndex(it.level === "challenge" ? 3 : 2);
         continue;
       }
 
       const marker = new kakao.maps.Marker({
         position: pos,
         image: this.getImage(it.level),
-        zIndex: it.level === "CHALLENGE" ? 3 : 2,
+        zIndex: it.level === "challenge" ? 3 : 2,
         clickable: true,
       });
 

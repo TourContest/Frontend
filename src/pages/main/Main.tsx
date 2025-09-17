@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useCheckIn } from "src/features/main/useCheckIn";
 import CheckInModal from "src/components/modal/CheckInModal";
 import KaKaoMap from "src/components/map/KaKaoMap";
+import BottomNavigation from "src/components/commons/Navigation/BottomNavigation";
 
 export default function Main() {
   const { state, claim } = useCheckIn();
@@ -27,6 +28,7 @@ export default function Main() {
           setOpen(false);
         }}
       />
+      <BottomNavigation />
     </div>
   );
 }

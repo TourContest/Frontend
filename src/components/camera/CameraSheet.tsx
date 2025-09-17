@@ -2,22 +2,65 @@ import { useEffect, useRef, useState } from "react";
 import { Capacitor } from "@capacitor/core";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import ConfirmModal from "src/components/modal/confirm/ConfirmModal";
+import { challengeApi } from "src/api/challengeApi";
 import * as S from "./style";
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  onConfirm: (photoDataUrl: string) => void; // 촬영 결과
+  onConfirm: (photoDataUrl: string) => void;
+  challengeId?: string | number;
+  lat?: number | null; // 사용자 현재 위치
+  lng?: number | null;
+  targetLat?: number; // 폴백: 마커 좌표
+  targetLng?: number;
 };
 
-export default function CameraSheet({ open, onClose, onConfirm }: Props) {
+export default function CameraSheet({
+  open,
+  onClose,
+  onConfirm,
+  challengeId,
+  lat,
+  lng,
+  targetLat,
+  targetLng,
+}: Props) {
   const isNative = Capacitor.isNativePlatform();
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const [photo, setPhoto] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [facing, setFacing] = useState<"environment" | "user">("environment");
+  const [submitting, setSubmitting] = useState(false);
 
+  async function resolveLatLng(): Promise<{ lat: number; lng: number } | null> {
+    // 1) 사용자 현재 위치 우선
+    if (lat != null && lng != null)
+      return { lat: Number(lat), lng: Number(lng) };
+
+    // 2) 폴백: 선택된 마커 좌표
+    if (targetLat != null && targetLng != null) {
+      return { lat: Number(targetLat), lng: Number(targetLng) };
+    }
+
+    // 3) 즉시 한 번 더 브라우저에서 획득 시도(권한 팝업)
+    try {
+      const pos = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        });
+      });
+      return {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude,
+      };
+    } catch {
+      return null;
+    }
+  }
   // 웹 카메라 오픈/클로즈
   useEffect(() => {
     const start = async () => {
@@ -73,14 +116,36 @@ export default function CameraSheet({ open, onClose, onConfirm }: Props) {
     }
   };
 
-  const handleRetake = () => {
-    setPhoto(null);
-    setConfirmOpen(false);
-  };
-
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!photo) return;
-    onConfirm(photo);
+
+    if (challengeId != null && lat != null && lng != null) {
+      try {
+        if (submitting) return;
+        setSubmitting(true);
+        await challengeApi.complete(
+          challengeId,
+          Number(lat),
+          Number(lng),
+          photo // dataURL → 서버가 허용하지 않으면 이후 업로더 붙여서 URL로 교체
+        );
+      } catch (e) {
+        console.error("challenge complete failed", e);
+      } finally {
+        setSubmitting(false);
+      }
+    } else {
+      console.warn(
+        "complete 호출 누락: challengeId/lat/lng 중 일부가 없음",
+        lat,
+        lng,
+        challengeId
+      );
+    }
+
+    dispatch(completeChallenge(String(challengeId), new Date().toISOString()));
+
+    onConfirm(photo); // 부모 후처리(상태 이동/탭 전환)
     setConfirmOpen(false);
     onClose();
   };
@@ -120,9 +185,12 @@ export default function CameraSheet({ open, onClose, onConfirm }: Props) {
         open={confirmOpen}
         title="챌린지 인증 완료!"
         subtitle="인증한 챌린지 확인하러 가시겠어요?"
-        confirmText="확인"
+        confirmText={submitting ? "처리 중..." : "확인"}
         cancelText="취소"
-        onCancel={handleRetake}
+        onCancel={() => {
+          setConfirmOpen(false);
+          // 재촬영 흐름 유지 시 원하면 setPhoto(null);
+        }}
         onConfirm={handleConfirm}
       />
     </S.Wrap>

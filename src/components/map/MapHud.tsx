@@ -1,14 +1,12 @@
 import {
   Wrap,
   Metrics,
-  Small,
   Big,
   ProfileCard,
   Thumb,
   Right,
   LevelPill,
   Name,
-  Sub,
   Chevron,
 } from "./mapStyle";
 import * as T from "src/styles/tokens.js";
@@ -20,22 +18,15 @@ type User = {
 };
 
 type Props = {
-  kmText: string; // 0.00 km
   stepsText: string; // 10,000 걸음
   user: User;
   onProfileClick?: () => void;
 };
 
-export default function MapHud({
-  kmText,
-  stepsText,
-  user,
-  onProfileClick,
-}: Props) {
+export default function MapHud({ stepsText, user, onProfileClick }: Props) {
   return (
     <Wrap>
       <Metrics>
-        <Small>{kmText}</Small>
         <Big>{stepsText}</Big>
       </Metrics>
 

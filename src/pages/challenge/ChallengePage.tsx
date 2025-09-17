@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSearchParams, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
@@ -11,6 +12,7 @@ import { useLoadOngoing } from "src/features/challenges/useLoadOngoing";
 import { useLoadCompleted } from "src/features/challenges/useLoadCompleted";
 import * as S from "./style";
 import ChallengeCard from "src/components/challenge-card/ChallengeCard";
+import BottomNavigation from "src/components/commons/Navigation/BottomNavigation";
 
 type Tab = "pre" | "doing" | "done";
 
@@ -23,6 +25,7 @@ export default function ChallengePage() {
     sentinelRef,
     hasMore,
   } = useLoadCompleted();
+  const navigate = useNavigate();
 
   const loading = loadingPre || loadingNow || loadingDone;
   const error = errorPre ?? errorNow ?? errorDone;
@@ -52,6 +55,16 @@ export default function ChallengePage() {
   }, [tab, searchParams, setSearchParams]);
 
   const visible = tab === "pre" ? ready : tab === "doing" ? doing : done;
+
+  const visibleUniq = useMemo(() => {
+    const seen = new Set<string>();
+    return visible.filter((it) => {
+      const key = String(it.id);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [visible]);
   const showEmpty = visible.length === 0;
   const emptyText =
     tab === "done"
@@ -95,8 +108,18 @@ export default function ChallengePage() {
         ) : (
           <>
             <S.List>
-              {visible.map((item) => (
-                <li key={item.id}>
+              {visibleUniq.map((item) => (
+                <li
+                  key={item.id}
+                  onClick={
+                    tab === "pre"
+                      ? () =>
+                          navigate(`/challenge/upcoming/${item.id}`, {
+                            state: { item },
+                          })
+                      : undefined
+                  }
+                >
                   <ChallengeCard data={item} />
                 </li>
               ))}
@@ -108,12 +131,13 @@ export default function ChallengePage() {
             )}
             {tab === "done" && !loadingDone && !hasMore && (
               <S.EmptyWrap>
-                <S.EmptyText>모두 불러왔어요</S.EmptyText>
+                <S.EmptyText></S.EmptyText>
               </S.EmptyWrap>
             )}
           </>
         )}
       </S.Body>
+      <BottomNavigation />
     </S.Page>
   );
 }
