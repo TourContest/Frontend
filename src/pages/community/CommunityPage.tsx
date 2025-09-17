@@ -1,13 +1,13 @@
-import styled from '@emotion/styled';
-import BottomNavigation from '../../components/commons/Navigation/BottomNavigation';
-import CommunityContent from '../../components/community/CommunityContent';
-import FloatingButton from '../../components/commons/Buttons/FloatingButton';
-import NotiHeader from 'src/components/commons/Header/NotiHeader';
-import PostsListTop from 'src/components/community/PostsList/PostListTop';
-import { useNotification } from 'src/features/my-page/useNotification';
-import BannerSlider from 'src/components/community/PostsList/BannerSlider';
-import { useEffect, useState } from 'react';
-import PostSearch from 'src/components/community/PostsList/PostSearch';
+import styled from "@emotion/styled";
+import BottomNavigation from "../../components/commons/Navigation/BottomNavigation";
+import CommunityContent from "../../components/community/CommunityContent";
+import FloatingButton from "../../components/commons/Buttons/FloatingButton";
+import NotiHeader from "src/components/commons/Header/NotiHeader";
+import PostsListTop from "src/components/community/PostsList/PostListTop";
+import { useNotification } from "src/features/my-page/useNotification";
+import BannerSlider from "src/components/community/PostsList/BannerSlider";
+import { useEffect, useState } from "react";
+import PostSearch from "src/components/community/PostsList/PostSearch";
 
 const ContentArea = styled.div`
   width: 100%;
@@ -26,8 +26,8 @@ const FloatingButtonContainer = styled.div`
 
 const CommunityPage: React.FC = () => {
   const { notiEnabled, toggleNoti } = useNotification();
-  
-  const [ bannerImg, setBannerImg ] = useState<string[]>([]);
+
+  const [bannerImg, setBannerImg] = useState<string[]>([]);
 
   useEffect(() => {
     // 크롤링 API 호출
@@ -35,7 +35,11 @@ const CommunityPage: React.FC = () => {
 
   return (
     <>
-      <NotiHeader title="커뮤니티" notiEnabled={notiEnabled} onToggleNoti={toggleNoti} />
+      <NotiHeader
+        title="커뮤니티"
+        notiEnabled={notiEnabled}
+        onToggleNoti={toggleNoti}
+      />
       <ContentArea>
         <PostSearch />
         <PostsListTop />
@@ -50,4 +54,4 @@ const CommunityPage: React.FC = () => {
   );
 };
 
-export default CommunityPage; 
+export default CommunityPage;

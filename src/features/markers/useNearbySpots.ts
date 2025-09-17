@@ -1,39 +1,31 @@
-import { useEffect, useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { spotsApi } from "src/api/spotsApi";
 import type { MapItem } from "./types";
-
-export type NearbySpot = {
-  id: number | string;
-  name: string;
-  latitude: number;
-  longitude: number;
-  likeCount: number;
-  likedByMe: boolean;
-  imageUrls?: string[];
-  type?: "POST" | "SPOT" | "CHALLENGE";
-  challengeOngoing?: boolean;
-};
+import type { NearbySpot } from "src/api/spotsApi";
+import { makeMockSpotsAround } from "src/mocks/mockSpots";
 
 type Options = {
   /** 진행중 챌린지만 돌려받고 싶을 때 true */
   onlyOngoingChallenge?: boolean;
+  mockOnly?: boolean;
 };
 
+// 서버 응답 → MapItem
 function mapNearbyToItems(list: NearbySpot[]): MapItem[] {
   return list
     .map((s) => {
+      // 서버 type 우선 (POST는 지도 제외)
       let level: MapItem["level"] | null = null;
       if (s.type === "CHALLENGE") level = "challenge";
       else if (s.type === "SPOT") level = "spot";
-      else level = null; // POST는 지도 제외
-
-      if (!level) return null;
+      else return null;
 
       return {
         id: String(s.id),
         lat: Number(s.latitude),
         lng: Number(s.longitude),
-        level, // ← "challenge" | "spot"
+        level,
         themes: [],
         title: s.name,
         thumb: s.imageUrls?.[0],
@@ -46,49 +38,74 @@ function mapNearbyToItems(list: NearbySpot[]): MapItem[] {
 }
 
 export function useNearbySpots(
-  centerLat: number,
-  centerLng: number,
+  centerLat?: number,
+  centerLng?: number,
   radiusKm = 3,
   opts: Options = {}
 ) {
-  const { onlyOngoingChallenge = false } = opts;
+  const { onlyOngoingChallenge = false, mockOnly = false } = opts;
+  if (mockOnly) {
+    const mocks = useMemo(() => {
+      if (centerLat == null || centerLng == null) return [];
+      // (필요하면 n, radiusKm 조절)
+      return makeMockSpotsAround(
+        centerLat,
+        centerLng,
+        6,
+        Math.min(radiusKm, 2)
+      );
+    }, [centerLat, centerLng, radiusKm]);
 
-  const [items, setItems] = useState<MapItem[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setErr] = useState<string | null>(null);
+    const markers = onlyOngoingChallenge
+      ? mocks.filter((m) => m.level === "challenge" && m.ongoing)
+      : mocks;
 
-  useEffect(() => {
-    let alive = true;
-    (async () => {
-      try {
-        setLoading(true);
-        setErr(null);
-
-        const res = await spotsApi.getNearby(centerLat, centerLng, radiusKm);
-        // 서버가 {success, data} 래핑이거나 바로 배열일 수 있음 → 둘 다 대응
-        const payload = res.data?.data ?? res.data ?? [];
-        const list: NearbySpot[] = Array.isArray(payload) ? payload : [];
-
-        if (!alive) return;
-        const mapped = mapNearbyToItems(list);
-
-        const filtered = onlyOngoingChallenge
-          ? mapped.filter((m) => m.level === "challenge" && m.ongoing)
-          : mapped;
-
-        setItems(filtered);
-      } catch (e: any) {
-        if (!alive) return;
-        setErr(e?.message ?? "근처 스팟 로드 실패");
-      } finally {
-        if (alive) setLoading(false);
-      }
-    })();
-    return () => {
-      alive = false;
+    return {
+      markers,
+      raw: mocks,
+      loading: false,
+      error: null as string | null,
     };
-  }, [centerLat, centerLng, radiusKm, onlyOngoingChallenge]);
+  }
 
-  const markers = useMemo(() => items, [items]);
-  return { markers, loading, error, raw: items };
+  const { data, isLoading, error } = useQuery({
+    queryKey: [
+      "nearbySpots",
+      centerLat,
+      centerLng,
+      radiusKm,
+      onlyOngoingChallenge,
+    ],
+    enabled: centerLat != null && centerLng != null,
+    queryFn: async () => {
+      if (centerLat == null || centerLng == null) return [] as NearbySpot[];
+      const res = await spotsApi.getNearby(centerLat, centerLng, radiusKm);
+      const payload = res.data?.data ?? res.data ?? [];
+      return Array.isArray(payload) ? (payload as NearbySpot[]) : [];
+    },
+    select: (raw: NearbySpot[]) => {
+      const mapped = mapNearbyToItems(raw);
+      const filtered = onlyOngoingChallenge
+        ? mapped.filter((m) => m.level === "challenge" && m.ongoing)
+        : mapped;
+
+      const mocks =
+        centerLat != null && centerLng != null
+          ? makeMockSpotsAround(centerLat, centerLng, 3, Math.min(radiusKm, 2))
+          : [];
+
+      return {
+        markers: [...filtered, ...mocks],
+        raw,
+      };
+    },
+    staleTime: 60_000,
+  });
+
+  return {
+    markers: data?.markers ?? [],
+    raw: data?.raw ?? [],
+    loading: isLoading,
+    error: error instanceof Error ? error.message : null,
+  };
 }

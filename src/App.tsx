@@ -23,6 +23,7 @@ import CommunityLayout from "./pages/community/CommunityLayout";
 import CommunityPage from "./pages/community/CommunityPage";
 import PostDetailPage from "./pages/community/PostDetailPage";
 import SpotWritePage from "./pages/community/PostWritePage";
+import ChallengeUpcomingDetailPage from "./pages/challenge/ChallengeUpcomingDetailPage";
 
 function App() {
   return (
@@ -67,6 +68,10 @@ function App() {
             {/* Main 진입 시 */}
             <Route path="/main" element={<Main />} />
             <Route path="/challenge" element={<ChallengePage />} />
+            <Route
+              path="/challenge/upcoming/:id"
+              element={<ChallengeUpcomingDetailPage />}
+            />
 
             {/* community */}
             <Route element={<CommunityLayout />}>
