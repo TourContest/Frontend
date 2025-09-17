@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { completeChallenge } from "src/redux/challenge/actions";
+import { useDispatch } from "react-redux";
 import { Capacitor } from "@capacitor/core";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import ConfirmModal from "src/components/modal/confirm/ConfirmModal";
@@ -23,10 +25,9 @@ export default function CameraSheet({
   challengeId,
   lat,
   lng,
-  targetLat,
-  targetLng,
 }: Props) {
   const isNative = Capacitor.isNativePlatform();
+  const dispatch = useDispatch();
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const [photo, setPhoto] = useState<string | null>(null);
@@ -34,33 +35,6 @@ export default function CameraSheet({
   const [facing, setFacing] = useState<"environment" | "user">("environment");
   const [submitting, setSubmitting] = useState(false);
 
-  async function resolveLatLng(): Promise<{ lat: number; lng: number } | null> {
-    // 1) 사용자 현재 위치 우선
-    if (lat != null && lng != null)
-      return { lat: Number(lat), lng: Number(lng) };
-
-    // 2) 폴백: 선택된 마커 좌표
-    if (targetLat != null && targetLng != null) {
-      return { lat: Number(targetLat), lng: Number(targetLng) };
-    }
-
-    // 3) 즉시 한 번 더 브라우저에서 획득 시도(권한 팝업)
-    try {
-      const pos = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 5000,
-          maximumAge: 0,
-        });
-      });
-      return {
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude,
-      };
-    } catch {
-      return null;
-    }
-  }
   // 웹 카메라 오픈/클로즈
   useEffect(() => {
     const start = async () => {

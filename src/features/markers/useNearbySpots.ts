@@ -15,11 +15,19 @@ type Options = {
 function mapNearbyToItems(list: NearbySpot[]): MapItem[] {
   return list
     .map((s) => {
-      // 서버 type 우선 (POST는 지도 제외)
       let level: MapItem["level"] | null = null;
-      if (s.type === "CHALLENGE") level = "challenge";
-      else if (s.type === "SPOT") level = "spot";
-      else return null;
+
+      if (s.type === "CHALLENGE") {
+        level = "CHALLENGE";
+      } else if (s.type === "SPOT") {
+        level = "SPOT";
+      } else if (s.type === "POST") {
+        const likes = Number(s.likeCount ?? 0);
+        if (likes < 10) return null; // 10 미만 → 지도 제외
+        if (likes >= 30)
+          level = "CHALLENGE"; // 30 이상 → 챌린지
+        else level = "SPOT"; // 10~29 → 스팟
+      }
 
       return {
         id: String(s.id),
@@ -57,7 +65,7 @@ export function useNearbySpots(
     }, [centerLat, centerLng, radiusKm]);
 
     const markers = onlyOngoingChallenge
-      ? mocks.filter((m) => m.level === "challenge" && m.ongoing)
+      ? mocks.filter((m) => m.level === "CHALLENGE" && m.ongoing)
       : mocks;
 
     return {
@@ -86,7 +94,7 @@ export function useNearbySpots(
     select: (raw: NearbySpot[]) => {
       const mapped = mapNearbyToItems(raw);
       const filtered = onlyOngoingChallenge
-        ? mapped.filter((m) => m.level === "challenge" && m.ongoing)
+        ? mapped.filter((m) => m.level === "CHALLENGE" && m.ongoing)
         : mapped;
 
       const mocks =
