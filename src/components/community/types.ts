@@ -1,9 +1,7 @@
-import type {BannerItem} from "src/components/community/PostsList/types.ts";
 import type { Validation } from "../commons/Inputs/TextField/types";
 
 export type BannerSliderProps = {
-    images: string[],
-    items?: BannerItem[]
+  images: string[]; // 부모에서 내려주는 이미지 배열
 };
 
 export type ImgPickerProps = {
@@ -12,16 +10,16 @@ export type ImgPickerProps = {
 }
 
 export interface Post {
-    id: number;
-    username: string;
-    date: string;
-    location: string;
-    content: string;
-    images: string[];
-    hasReport: boolean;
-    likes?: number;
-    comments?: number;
-}
+  id: number;
+  username: string;
+  date: string;
+  location: string;
+  content: string;
+  images: string[];
+  hasReport: boolean;
+  likes?: number;
+  comments?: number;
+};
 
 export interface LocationFieldProps {
   value: string;                        // 표시/편집 값 (리듀서 state.locationText)
