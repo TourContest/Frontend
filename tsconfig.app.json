@@ -6,7 +6,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "composite" : true,
+    "composite": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -21,7 +21,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     // "noImplicitAny": false, //any 관련 에러 우선 끕니다..(theme이 갑자기 에러가 계속 나서)
-    "erasableSyntaxOnly": true,
+
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
@@ -30,7 +30,6 @@
       "src/*": ["src/*"]
     },
     "typeRoots": ["./src/types", "./node_modules/@types"]
-    
   },
   "include": ["src", "src/types", "src/**/*.ts", "src/**/*.tsx"]
 }

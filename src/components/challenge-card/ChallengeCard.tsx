@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useGeolocation } from "src/features/main/useGeolocation";
 import * as S from "./style";
 
 export type ChallengeCardData = {

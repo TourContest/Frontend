@@ -23,7 +23,7 @@ export function useProximityCert(
 
   const [open, setOpen] = useState(false);
   const [target, setTarget] = useState<OngoingLite | null>(null);
-  const [disatnce, setDisatnce] = useState<number | null>(null);
+  const [distance, setDistance] = useState<number | null>(null);
 
   // 재노출 제어하기 (메모리 + localStorage)
   const lastShownRef = useRef<Record<string | number, number>>({});
@@ -57,13 +57,13 @@ export function useProximityCert(
     localStorage.setItem(`cert:last:${key}`, String(now));
 
     setTarget(item);
-    setDisatnce(d);
+    setDistance(d);
     setOpen(true);
   }, [nearest, threshold, cooldownMs]);
 
   const dismiss = () => setOpen(false);
 
-  return { open, target, disatnce, dismiss };
+  return { open, target, distance, dismiss };
 }
 
 function haversine(lat1: number, lon1: number, lat2: number, lon2: number) {

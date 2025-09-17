@@ -22,7 +22,10 @@ function haversine(a: Center, b: Center) {
 export class MarkerManager {
   private map: kakao.maps.Map;
   private pool = new Map<string, kakao.maps.Marker>();
-  private imgCache = new Map<"SPOT" | "CHALLENGE", kakao.maps.MarkerImage>();
+  private imgCache = new Map<
+    "SPOT" | "POST" | "CHALLENGE",
+    kakao.maps.MarkerImage
+  >();
   private onClick?: ClickHandler;
 
   constructor(map: kakao.maps.Map, opts?: { onClick?: ClickHandler }) {
@@ -34,7 +37,7 @@ export class MarkerManager {
     this.onClick = cb;
   }
 
-  private getImage(level: "SPOT" | "CHALLENGE") {
+  private getImage(level: "SPOT" | "POST" | "CHALLENGE") {
     if (this.imgCache.has(level)) return this.imgCache.get(level)!;
 
     // 아이콘 사이즈/오프셋은 실제 SVG 비율에 맞게 조정해줘
@@ -42,7 +45,11 @@ export class MarkerManager {
     const size = new kakao.maps.Size(36, 44);
     const offset = new kakao.maps.Point(18, 42);
 
-    const url = level === "SPOT" ? spotUrl : challengeUrl;
+    let url: string;
+
+    if (level === "SPOT") url = spotUrl;
+    else if (level === "CHALLENGE") url = challengeUrl;
+    else url = spotUrl;
     const img = new kakao.maps.MarkerImage(url, size, { offset });
     this.imgCache.set(level, img);
     return img;
@@ -88,14 +95,14 @@ export class MarkerManager {
       if (exist) {
         exist.setPosition(pos);
         exist.setImage(this.getImage(it.level));
-        exist.setZIndex(it.level === "challenge" ? 3 : 2);
+        exist.setZIndex(it.level === "CHALLENGE" ? 3 : 2);
         continue;
       }
 
       const marker = new kakao.maps.Marker({
         position: pos,
         image: this.getImage(it.level),
-        zIndex: it.level === "challenge" ? 3 : 2,
+        zIndex: it.level === "CHALLENGE" ? 3 : 2,
         clickable: true,
       });
 

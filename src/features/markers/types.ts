@@ -3,7 +3,7 @@ export type MapItem = {
   id: string;
   lat: number;
   lng: number;
-  level: "spot" | "challenge";
+  level: "SPOT" | "POST" | "CHALLENGE";
   themes: string[]; // 서버 응답엔 없음 → 빈 배열 유지
   title?: string;
   thumb?: string;

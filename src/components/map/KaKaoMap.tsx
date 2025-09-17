@@ -17,12 +17,10 @@ import { useMe } from "src/features/user/useMe";
 import { useSaveSteps } from "src/features/steps/useSaveSteps";
 import { useNearbySpots } from "src/features/markers/useNearbySpots";
 import ChargePopup from "src/components/popup/ChargePopup";
-import { userApi } from "src/api/users";
 import ConfirmModal from "../../components/modal/confirm/ConfirmModal";
 
 export default function KaKaoMap({
   appKey,
-  preferredThemes,
 }: {
   appKey: string;
   preferredThemes?: string[];

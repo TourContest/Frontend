@@ -36,13 +36,10 @@ export default function ChallengeUpcomingDetailPage() {
     return found as ReadyItem | undefined;
   }, [state?.item, readyFromStore, id]);
 
-  // 현재 위치 (시작 API에 필요)
   const { lat, lng } = useGeolocation();
 
-  // kakao map
   const appKey = import.meta.env.VITE_KAKAO_JS_KEY as string;
-  // 주소 역지오코딩을 위해 services 라이브러리 로드
-  const readyKakao = useKakaoLoader(appKey, ["services"]);
+  const readyKakao = useKakaoLoader(appKey, []);
   const mapRef = useRef<any>(null);
   const mapElRef = useRef<HTMLDivElement>(null);
   const markerRef = useRef<kakao.maps.Marker | null>(null);
@@ -51,23 +48,47 @@ export default function ChallengeUpcomingDetailPage() {
     () =>
       item
         ? { lat: Number(item.latitude), lng: Number(item.longitude) }
-        : { lat: 33.24083, lng: 126.605983 }, // fallback 제주
+        : { lat: 33.24083, lng: 126.605983 },
     [item]
   );
 
-  // 역지오코딩 주소 상태
-  const [address, setAddress] = useState<string>("");
-
   useEffect(() => {
-    if (!readyKakao || !mapElRef.current || !item) return;
+    if (!readyKakao || !mapElRef.current || !item) {
+      return;
+    }
 
-    const map = new kakao.maps.Map(mapElRef.current, {
+    console.log(
+      "map container size:",
+      mapElRef.current.offsetWidth,
+      mapElRef.current.offsetHeight
+    );
+    // 맵 컨테이너가 화면에 보일 때까지 기다립니다.
+    const mapContainer = mapElRef.current;
+    if (mapContainer.offsetWidth === 0 || mapContainer.offsetHeight === 0) {
+      console.warn("지도 컨테이너가 숨겨져 있어 렌더링을 지연합니다.");
+
+      // 다음 프레임에서 재시도 (가장 간단한 방법)
+      const timeoutId = setTimeout(() => {
+        // 컴포넌트가 언마운트되면 실행되지 않도록 확인
+        if (mapElRef.current) {
+          // 상태를 업데이트하여 useEffect를 재실행
+          // (더 복잡한 해결책이지만 안정적)
+          // 여기서는 간단하게 setTimeout으로 해결 시도
+          // setSomeState(true)를 통해 리렌더링 유발 가능
+        }
+      }, 500);
+
+      return () => clearTimeout(timeoutId);
+    }
+
+    // 맵 생성
+    const map = new kakao.maps.Map(mapContainer, {
       center: new kakao.maps.LatLng(center.lat, center.lng),
       level: 8,
     });
     mapRef.current = map;
 
-    // 마커 이미지: challenge.svg
+    // 마커 생성
     const image = new kakao.maps.MarkerImage(
       challengeMarkerUrl,
       new kakao.maps.Size(36, 44),
@@ -83,39 +104,18 @@ export default function ChallengeUpcomingDetailPage() {
     marker.setMap(map);
     markerRef.current = marker;
 
-    // 지도가 보이지 않는 경우 대비: 다음 프레임에서 relayout + setCenter
+    // 지도가 보이지 않을 때 relayout 호출
     requestAnimationFrame(() => {
       map.relayout();
       map.setCenter(markerPosition);
-    });
 
-    // 위/경도로 주소 생성 (coord2Address는 lng, lat 순서!)
-    const services = (kakao.maps as any).services;
-    if (services && typeof services.Geocoder === "function") {
-      const geocoder = new services.Geocoder();
-      // coord2Address는 (lng, lat) 순서!
-      geocoder.coord2Address(
-        center.lng,
-        center.lat,
-        (result: any, status: kakao.maps.services.Status) => {
-          if (status === kakao.maps.services.Status.OK && result?.length) {
-            const addr =
-              result[0]?.road_address?.address_name ||
-              result[0]?.address?.address_name;
-            setAddress(addr || "");
-          } else {
-            setAddress("");
-          }
-        }
-      );
-    } else {
-      // services가 없으면 주소는 비워두고 좌표만 보여줌 (에러 방지)
-      console.warn("[Kakao] services 라이브러리 로드 실패 - 주소 표시 불가");
-      setAddress("");
-    }
+      setTimeout(() => {
+        map.relayout();
+        map.setCenter(markerPosition);
+      }, 200);
+    });
   }, [readyKakao, item, center.lat, center.lng]);
 
-  // 시작 모달
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const handleStart = async () => {
@@ -153,7 +153,6 @@ export default function ChallengeUpcomingDetailPage() {
       <BackHeader title="진행 전" />
 
       <div style={{ padding: "16px 16px 110px" }}>
-        {/* 타이틀/설명 */}
         <div style={{ marginBottom: 14 }}>
           <div style={{ fontSize: 20, fontWeight: 700, lineHeight: "28px" }}>
             {title}
@@ -193,7 +192,6 @@ export default function ChallengeUpcomingDetailPage() {
           ))}
         </div>
 
-        {/* 위치 블록 */}
         <div style={{ marginTop: 22 }}>
           <div
             style={{
@@ -203,7 +201,6 @@ export default function ChallengeUpcomingDetailPage() {
               marginBottom: 8,
             }}
           >
-            {/* ⬇️ challengePos 아이콘 */}
             <img
               src={challengePosIconUrl}
               alt="위치 아이콘"
@@ -214,21 +211,19 @@ export default function ChallengeUpcomingDetailPage() {
             <span style={{ fontWeight: 700, fontSize: 18 }}>챌린지 위치</span>
           </div>
 
-          {/* 미니 카카오맵 */}
           <div
             ref={mapElRef}
             style={{
               width: "100%",
-              height: 180,
+              height: "100%",
+              minHeight: 180,
               borderRadius: 16,
               overflow: "hidden",
-              // 부모 레이아웃 영향 줄이기 위한 최소 보정
             }}
           />
         </div>
       </div>
 
-      {/* 하단 고정 시작하기 버튼 */}
       <div
         style={{
           position: "fixed",
@@ -258,7 +253,6 @@ export default function ChallengeUpcomingDetailPage() {
         </button>
       </div>
 
-      {/* 시작 확인 모달 */}
       <ConfirmModal
         open={confirmOpen}
         title={"챌린지를 진행하시기 전에 \n확인해주세요."}
