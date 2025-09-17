@@ -7,14 +7,12 @@ import MyProfileWrap from "src/components/my-page/menu/myProfile";
 import SettingMenu from "src/components/my-page/menu/SettingMenu";
 import { MyPageContainer, MyPageWrapper } from "src/components/my-page/style";
 import { useNotification } from "src/features/my-page/useNotification";
-import BottomNavigation from "src/components/commons/Navigation/BottomNavigation";
 
 const MyPage = () => {
   const navigate = useNavigate();
   const { notiEnabled, toggleNoti } = useNotification();
 
   const [openSettings, setOpenSettings] = useState(false);
-
 
   return (
     <MyPageContainer>

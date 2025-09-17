@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { userApi, type MeDTO } from "../../api/userApi";
+import { userApi, type SessionMe } from "../../api/users";
 import avatarFallback from "src/assets/BlackPig.svg?url";
 
 export type Me = {
@@ -24,7 +24,7 @@ const gradeNameOf = (code?: string) => {
   }
 };
 
-const mapMe = (dto?: MeDTO["data"]): Me | null => {
+const mapMe = (dto?: SessionMe): Me | null => {
   if (!dto) return null;
   return {
     id: String(dto.userId),
@@ -47,7 +47,7 @@ export function useMe() {
     setLoading(true);
     setError(null);
     try {
-      const res = await userApi.getMe();
+      const res = await userApi.getSessionMe();
       const next = mapMe(res.data?.data);
       if (!next) throw new Error("프로필 정보를 불러올 수 없어요.");
       setMe(next);
