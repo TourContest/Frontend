@@ -64,7 +64,7 @@ const initialState: CommunityState = {
   error: null,
 };
 
-const communitySlice = createSlice({
+export const communitySlice = createSlice({
   name: 'community',
   initialState,
   reducers: {

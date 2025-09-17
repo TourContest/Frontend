@@ -15,7 +15,7 @@ export default function ImgPicker({ images, onChange } : ImgPickerProps) {
 
         const url = URL.createObjectURL(file);
 
-        const next = [...images, url].slice(0, 3);
+        const next = [...images, file].slice(0, 3);
         onChange(next);
 
         requestAnimationFrame(() => {
@@ -46,14 +46,14 @@ export default function ImgPicker({ images, onChange } : ImgPickerProps) {
                     </AddCard>
                 )}
 
-                {images.map((img, idx) => (
+                {images.map((file, idx) => (
                     <Thumb
                         key={idx}
                         data-last={idx === images.length -1}
                         onClick={() => handleRemove(idx)}
                     >
                         <ImgBox>
-                            <Img src={img}/>
+                            <Img src={URL.createObjectURL(file)}/>
                         </ImgBox>
                     </Thumb>
                 ))}

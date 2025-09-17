@@ -5,8 +5,8 @@ export type BannerSliderProps = {
 };
 
 export type ImgPickerProps = {
-  images: string[];
-  onChange: (images: string[])  => void;
+  images: File[];
+  onChange: (images: File[])  => void;
 }
 
 export interface Post {
@@ -27,8 +27,7 @@ export interface LocationFieldProps {
   placeholder?: string;
   validation?: Validation;
   message?: string;
-  disabled?: boolean;
-  onBlur?: () => void;                  // API 연동
+  openModal?: () => void;
 }
 
 export type TextFieldProps = {

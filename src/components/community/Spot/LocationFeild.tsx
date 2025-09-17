@@ -11,10 +11,12 @@ export default function LocationField({
   placeholder = "현재 위치 입력",
   validation,
   message,
-  disabled,
-  onBlur,
-}: LocationFieldProps) {
-   const vali: Validation = validation ?? (message ? 'negative' : 'normal');
+  openModal
+}: LocationFieldProps & {
+    openModal?: () => void;
+}) {
+  
+  const vali: Validation = validation ?? (message ? 'negative' : 'normal');
 
   return (
     <>
@@ -26,7 +28,7 @@ export default function LocationField({
                   <strong>*</strong>
                 </span>
             </div>
-            <FaChevronRight color="#B7B7B7"/>
+            <FaChevronRight color="#B7B7B7" />
         </Head3Wrapper>
         <InputTextField
             value={value}
@@ -34,8 +36,9 @@ export default function LocationField({
             placeholder={placeholder}
             validation={vali}
             message={message}
-            disabled={disabled}
-            onBlur={onBlur}
+            // disabled
+            readOnly
+            onClick={openModal}
         />
     </>
   );
