@@ -23,7 +23,7 @@ export const ButtonWrapper = styled.div`
     width: 100%;
     position: fixed;
     bottom: 0;
-    left: 0:
+    left: 0;
     right: 0;
     padding: 12px 20px 46px 20px;
     display: flex;

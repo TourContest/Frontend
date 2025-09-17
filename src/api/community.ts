@@ -1,3 +1,4 @@
+import type { SpotCreate } from "src/types/SpotTypes";
 import api from "./instance";
 
 type ApiRes<T> = {
@@ -10,8 +11,11 @@ type ApiRes<T> = {
 };
 
 export const communityApi = {
-
+  createSpot: async (payload: SpotCreate): Promise<ApiRes<number>> => {
+    const formData = new FormData();
+    const { images, ...data } = payload;
 }
+
 export type CommunityEventBannerDto = {
   id: number;
   title: string;
@@ -41,4 +45,5 @@ export async function fetchCommunityEventBanners(date?: string) {
   }
   const data = (await res.json()) as CommunityEventBannerDto[];
   return data;
+
 }

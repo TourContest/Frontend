@@ -1,13 +1,13 @@
-import styled from '@emotion/styled';
-import BottomNavigation from '../../components/commons/Navigation/BottomNavigation';
-import CommunityContent from '../../components/community/CommunityContent';
-import FloatingButton from '../../components/commons/Buttons/FloatingButton';
-import NotiHeader from 'src/components/commons/Header/NotiHeader';
-import PostsListTop from 'src/components/community/PostsList/PostListTop';
-import { useNotification } from 'src/features/my-page/useNotification';
-import BannerSlider from 'src/components/community/PostsList/BannerSlider';
-import { useEffect, useState } from 'react';
-import PostSearch from 'src/components/community/PostsList/PostSearch';
+import styled from "@emotion/styled";
+import BottomNavigation from "../../components/commons/Navigation/BottomNavigation";
+import CommunityContent from "../../components/community/CommunityContent";
+import FloatingButton from "../../components/commons/Buttons/FloatingButton";
+import NotiHeader from "src/components/commons/Header/NotiHeader";
+import PostsListTop from "src/components/community/PostsList/PostListTop";
+import { useNotification } from "src/features/my-page/useNotification";
+import BannerSlider from "src/components/community/PostsList/BannerSlider";
+import { useEffect, useState } from "react";
+import PostSearch from "src/components/community/PostsList/PostSearch";
 
 import { fetchCommunityEventBanners } from 'src/api/community';
 import type { CommunityEventBannerDto } from 'src/api/community';
@@ -30,6 +30,7 @@ const FloatingButtonContainer = styled.div`
 
 const CommunityPage: React.FC = () => {
   const { notiEnabled, toggleNoti } = useNotification();
+
 
     const [bannerItems, setBannerItems] = useState<BannerItem[]>([]);
     const [bannerError, setBannerError] = useState<string | null>(null);
@@ -66,7 +67,11 @@ const CommunityPage: React.FC = () => {
 
   return (
     <>
-      <NotiHeader title="커뮤니티" notiEnabled={notiEnabled} onToggleNoti={toggleNoti} />
+      <NotiHeader
+        title="커뮤니티"
+        notiEnabled={notiEnabled}
+        onToggleNoti={toggleNoti}
+      />
       <ContentArea>
         <PostSearch />
         <PostsListTop />

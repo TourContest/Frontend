@@ -8,6 +8,7 @@ import type { RootState } from 'src/store';
 import ImgSlider from 'src/components/community/PostDetail/ImgSlider';
 import BackHeader from 'src/components/commons/Header/BackHeader';
 import PostBox from 'src/components/community/PostDetail/PostBox';
+
 import { mapPostDetail } from 'src/components/community/PostDetail/types';
 
 import {

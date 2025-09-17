@@ -17,7 +17,7 @@ import ShortageModal from "src/components/modal/ShortageModal";
 import ChargePopup from "src/components/popup/ChargePopup";
 import ErrorToast from "src/components/commons/Toast";
 
-type AreaState = { category?: ProductCategory}
+type AreaState = { category?: ProductCategory }
 
 const ProductShopPage = () => {
     const { productId } = useParams<{ productId: string }>();
@@ -84,12 +84,6 @@ const ProductShopPage = () => {
 
              if (errorCode === "INSUFFICIENT_HALLABONG") {
                 setShortage(true);
-            } else if (error?.response?.status === 500) {
-                if (fallbackCategory === 'JEJU_TICON' || product?.category === 'JEJU_TICON') {
-                    showToast('이미 구매한 제주티콘은 중복 구매할 수 없습니다.');
-                } else {
-                showToast(message);
-                }
             } else {
                 showToast(message);
             }
