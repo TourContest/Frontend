@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { theme } from 'src/styles/theme';
 import { useReducer, useState } from 'react';
-import { initialSpotForm, spotReducer } from 'src/reducer/SpotReducer';
-import type { SpotFormState } from 'src/types/SpotTypes';
+import { initialSpot, spotReducer } from 'src/reducer/SpotReducer';
+import type { SpotCreate } from 'src/types/SpotTypes';
 import BackHeader from 'src/components/commons/Header/BackHeader';
 import ImgPicker from 'src/components/community/Spot/ImgPicker';
 import LocationField from 'src/components/community/Spot/LocationFeild';
@@ -14,6 +14,8 @@ import { ButtonWrapper } from 'src/components/auth/login/login.style';
 import BottomButton from 'src/components/commons/Buttons/BottomButton';
 import { useSpotValidation } from 'src/features/spot/useSpotFormValidation';
 import PostSuccessModal from 'src/components/modal/PostSuccessModal';
+import LocationModal from 'src/components/modal/LocationModal';
+import { useCreateSpot } from 'src/features/spot/useCreateSpot';
 
 const ContentWrapper = styled.form`
   padding: 30px 0 0 0;
@@ -49,8 +51,10 @@ const THEME_OPTIONS = [
   { id: 9, label: '맛집 탐방' },
 ];
 const PostWritePage = () => {
-  const [spot, dispatch] = useReducer(spotReducer, initialSpotForm as SpotFormState);
-  const { errors, validate, onChangeLocation, onChangeDescription } = useSpotValidation(spot, dispatch);
+  const createSpot = useCreateSpot();
+
+  const [spot, dispatch] = useReducer(spotReducer, initialSpot as SpotCreate);
+  const { errors, validate } = useSpotValidation(spot, dispatch);
   
   const tags = [spot.tag1, spot.tag2, spot.tag3].filter(Boolean) as string[];
   const handleTagsChange = (next: string[]) => {
@@ -64,39 +68,45 @@ const PostWritePage = () => {
   const hideError = () => setToast({ visible: false, message: '' });
 
   const [successOpen, setSuccessOpen] = useState(false);
+  const [locationModalOpen, setLocationModalOpen] = useState(false);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const errs = validate();
 
-    // 둘 다 에러
-    if (errs.locationText && errs.description) {
-        showError('위치와 내용을 입력해주세요.');
-        return;
-    }
-    // 하나만 에러
-    if (errs.locationText && !errs.description) { showError(errs.locationText); return; }
-    if (!errs.locationText && errs.description) { showError(errs.description); return; }
-
-    setSuccessOpen(true);
+    if (errs.locationText || errs.description) {
+      // 둘 다 에러
+      if (errs.locationText && errs.description) showError('위치와 내용을 입력해주세요.');
+      // 하나만 에러
+      if (errs.locationText && !errs.description) { showError(errs.locationText); return; }
+      if (!errs.locationText && errs.description) { showError(errs.description); return; }
+      return;
+    };
+    
+    createSpot.mutate(spot, {
+      onSuccess: () => setSuccessOpen(true),
+      onError: () => showError('등록에 실패했습니다.'),
+    });
 };
 
   return (
     <>
       <BackHeader title="스팟추가" />
         <ContentWrapper onSubmit={handleSubmit} noValidate>
+
           {/* 이미지 */}
           <Head3 style={{ marginBottom: "17px", paddingLeft: '20px' }}>사진 업로드</Head3>
           <ImgPicker 
             images={spot.images} 
-            onChange={(imgs) => dispatch({ type: "SET_FIELD", field: "images", value: imgs })}
+            onChange={(files: File[]) => dispatch({ type: "SET_FIELD", field: "images", value: files })}
           />
 
           {/* 위치 */}
           <Section style={{ padding: '20px 20px 15px 20px' }}>
             <LocationField 
-              value={spot.locationText}
+              value={spot.name || ''}
               onChange={(text) => dispatch({ type: "SET_LOCATION_TEXT", value: text })}
+              openModal={() => setLocationModalOpen(true)}
               message={errors.locationText}
             />
           </Section>
@@ -140,6 +150,15 @@ const PostWritePage = () => {
 
           {/* 성공모달 */}
           <PostSuccessModal open={successOpen} onClose={() => setSuccessOpen(false) }/>
+
+          <LocationModal
+            open={locationModalOpen}
+            onClose={() => setLocationModalOpen(false)}
+            onSelect={(lat, lng, name) => {
+              dispatch({ type: "SET_COORDS", latitude: lat, longitude: lng });
+              dispatch({ type: "SET_LOCATION_TEXT", value: name ?? `${lat}, ${lng}` });
+            }}
+          />
         </ContentWrapper>
     </>
   );

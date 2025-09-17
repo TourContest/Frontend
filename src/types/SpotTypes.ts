@@ -7,7 +7,7 @@ export interface SpotCreate {
   tag1?: string;
   tag2?: string;
   tag3?: string;
-  images: string[];
+  images: File[];
 }
 
 export type SpotAction =
@@ -16,7 +16,3 @@ export type SpotAction =
 | { type: "SET_COORDS"; latitude: number; longitude: number }
 | { type: "SET_LOCATION_TEXT"; value: string }
 | { type: "RESET" };
-
-export interface SpotFormState extends SpotCreate {
-  locationText: string; // UI에만 쓰는 텍스트 (서버 전송 X)
-}
