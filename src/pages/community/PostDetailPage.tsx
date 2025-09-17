@@ -3,7 +3,7 @@ import ImgSlider from 'src/components/community/PostDetail/ImgSlider';
 import BackHeader from 'src/components/commons/Header/BackHeader';
 import PostBox from 'src/components/community/PostDetail/PostBox';
 import { useSelector } from 'react-redux';
-import type { RootState } from 'src/store';
+import type { RootState } from 'src/redux/rootReducer';
 import { useParams } from 'react-router-dom';
 import { mapPostDetail } from 'src/components/community/PostDetail/types'; // API 연동시 지우기
 import CommentList from 'src/components/community/Comment/CommnentList';

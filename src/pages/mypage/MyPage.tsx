@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NotiHeader from "src/components/commons/Header/NotiHeader";
+import BottomNavigation from "src/components/commons/Navigation/BottomNavigation";
 import MyPageMenu from "src/components/my-page/menu/MyPageMenu";
 import MyProfileWrap from "src/components/my-page/menu/myProfile";
 import SettingMenu from "src/components/my-page/menu/SettingMenu";
@@ -30,7 +31,8 @@ const MyPage = () => {
                 <SettingMenu
                     onClose={() => setOpenSettings(false)}
                 />
-      )}
+            )}
+            <BottomNavigation />
         </MyPageContainer>
     );
 };

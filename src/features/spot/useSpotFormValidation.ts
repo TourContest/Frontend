@@ -1,19 +1,18 @@
-// src/features/spot/hooks/useSpotValidation.ts
 import { useCallback, useState } from 'react';
 import { getSpotErrors, type SpotFieldErrors } from 'src/utils/validation/spotValidation';
-import type { SpotFormState } from 'src/types/SpotTypes';
+import type { SpotCreate } from 'src/types/SpotTypes';
 
-export function useSpotValidation(spot: SpotFormState, dispatch: React.Dispatch<any>) {
+export function useSpotValidation(spot: SpotCreate, dispatch: React.Dispatch<any>) {
   const [errors, setErrors] = useState<SpotFieldErrors>({});
 
   const validate = useCallback(() => {
     const e = getSpotErrors({
-      locationText: spot.locationText,
+      locationText: spot.name,
       description:  spot.description ?? '',
     });
     setErrors(e);
     return e;
-  }, [spot.locationText, spot.description]);
+  }, [spot.name, spot.description]);
 
   const onChangeLocation = useCallback((text: string) => {
     dispatch({ type: 'SET_LOCATION_TEXT', value: text });
