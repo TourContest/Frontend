@@ -24,7 +24,18 @@ import PostDetailPage from "./pages/community/PostDetailPage";
 import SpotWritePage from "./pages/community/PostWritePage";
 import ChallengeUpcomingDetailPage from "./pages/challenge/ChallengeUpcomingDetailPage";
 
+import { Keyboard, KeyboardResize } from "@capacitor/keyboard";
+import { useEffect } from "react";
+
 function App() {
+  
+  // 키보드 올라올 때 WebView를 리사이즈
+  useEffect(() => {
+    Keyboard.setResizeMode({
+      mode: KeyboardResize.Ionic, // enum 사용
+    });
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
