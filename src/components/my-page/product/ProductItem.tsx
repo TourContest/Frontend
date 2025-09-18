@@ -3,7 +3,7 @@ import { ProductCard, ProductImgWrapper, ProductName, ProductPrice } from "./sty
 import type { ProductItemProps } from "./type";
 import Hanlabong from '../../../assets/hanlabong.svg';
 
-export const ProductItem: React.FC<ProductItemProps> = ({ id, imageUrl, name, hallabongCost, onClick }) => {
+export const ProductItem: React.FC<ProductItemProps> = ({ imageUrl, name, hallabongCost, onClick }) => {
     const [imgError, setImgError] = useState(false);
     const src: string | undefined = imageUrl ?? undefined;
     const hasImg = !!src && !imgError;

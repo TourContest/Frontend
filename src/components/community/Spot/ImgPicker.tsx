@@ -13,8 +13,6 @@ export default function ImgPicker({ images, onChange } : ImgPickerProps) {
         const file = e.target.files?.[0];
         if(!file) return;
 
-        const url = URL.createObjectURL(file);
-
         const next = [...images, file].slice(0, 3);
         onChange(next);
 

@@ -4,9 +4,12 @@ import type { CommentRes } from "./types";
 
 interface CommentListProps {
   data: CommentRes;
+  spotId: number;
+  isPopup?: boolean;
+  onReply?: (parentId: number) => void;
 }
 
-const CommentList: React.FC<CommentListProps> = ({ data }) => {
+const CommentList: React.FC<CommentListProps> = ({ data, isPopup = false, onReply }) => {
 
     return(
         <>
@@ -20,9 +23,11 @@ const CommentList: React.FC<CommentListProps> = ({ data }) => {
                         첫 댓글을 달아주세요.
                     </EmptyCommentBox>
                 ) : (
-                    data.content.map((comment) => (
-                        <CommentItem key={comment.id} comment={comment} />
-                    ))
+                    data.content.map((comment) => {
+                        return (
+                            <CommentItem key={comment.id} comment={comment} isPopup={isPopup} onReply={onReply} />
+                        )
+                    })
                 )}
             </div>
         </>

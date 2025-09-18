@@ -1,4 +1,4 @@
-import type { SpotComment } from "../community/Comment/types";
+import type { CommentRes } from "../community/Comment/types";
 
 export type PopupProps = { 
     open: boolean;
@@ -10,6 +10,6 @@ export type PopupProps = {
 export interface CommentPopupProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (text: string) => void;
-  comments: SpotComment[];
+  comments: CommentRes;
+  spotId: number;
 }

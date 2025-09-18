@@ -1,17 +1,13 @@
-import { useState } from "react";
 import type { CommentPopupProps } from "./types";
 import { Handle, Popup, PopupHeader, PopupOverlay, PupupBody } from "./style";
 import CommentList from "../community/Comment/CommnentList";
 
 export default function CommentPopup({
-    open, onClose, onSubmit, comments
+    open, onClose, comments, spotId
 }: CommentPopupProps) {
-    const [comment, setComment] = useState([]);
+    console.log("popup comments:", comments);
+    console.log("popup comments content length:", comments.content.length);
 
-    const handleSubmit = (value: string) => {
-        onSubmit(value);
-        setComment([]);
-    }
     return(
         <PopupOverlay data-open={open} onClick={onClose}>
             <Popup data-open={open} onClick={(e) => e.stopPropagation()}>
@@ -19,9 +15,18 @@ export default function CommentPopup({
                     <Handle aria-label="닫기" />
                     <h1>답글</h1>
                 </PopupHeader>
-                <PupupBody style={{ padding: 0 }}>
-                    <CommentList data={{ content: comments, totalElements: comments.length , hasNext: false}}/>
+                <PupupBody style={{ 
+                    padding: 0, 
+                    maxHeight: 'calc(100vh - 300px)',
+                    overflowY: 'auto',
+                }}>
+                    <CommentList 
+                        data={comments}
+                        spotId={ spotId}
+                        isPopup={true} // 답글버튼 숨김 
+                    />
                 </PupupBody>
+                <div style={{ height: '67px' }}></div>
             </Popup>
         </PopupOverlay>
     );

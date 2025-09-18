@@ -7,7 +7,7 @@ import InputTextField from "src/components/commons/Inputs/TextField";
 import ButtonsChip from "src/components/commons/Buttons/ButtonsChip";
 
 const HashTagField = ({
-    value, onChange, max = 3, placeholder, maxLengthPerTag = 20
+    value, onChange, max = 3, maxLengthPerTag = 20
 }: HashtagFieldProps) => {
     const [hashtag, setHashtag] = useState('');
     const [isComposing, setIsComposing] = useState(false);

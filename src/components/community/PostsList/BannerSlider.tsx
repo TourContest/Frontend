@@ -3,15 +3,6 @@ import styled from "@emotion/styled";
 import Indicator from './BannerIndicator';
 import type { BannerSliderProps } from "../types";
 
-// 더미 API 연동 후 지우기
-const dummyImgs = [
-    "https://picsum.photos/id/1018/600/200",
-    "https://picsum.photos/id/1015/600/200",
-    "https://picsum.photos/id/1019/600/200",
-    "https://picsum.photos/id/1020/600/200",
-    "https://picsum.photos/id/1021/600/200",
-];
-
 const Wrapper = styled.div`
     position: relative;
     width: 100%;
@@ -33,42 +24,41 @@ const Banner = styled.img<{ active?: boolean; fadingOut?: boolean }>`
     ${({ fadingOut }) => fadingOut && fadingOut && `opacity: 0; z-index: 1;`}
 `;
 
-export default function BannerSlider({ images = [] }: BannerSliderProps ) {
+export default function BannerSlider({ items }: BannerSliderProps ) {
   const [current, setCurrent] = useState(0);
   const [prev, setPrev] = useState<number | null>(null);
 
-  // api 연동 후 변경
-  const displayImgs = images.length ? images : dummyImgs;
-
   useEffect(() => {
-    if(!displayImgs.length) return;
-    // if(!images.length) return;
-
     const timer = setInterval(() => {
       setPrev(current);
       setCurrent((prev) =>
-        prev === displayImgs.length - 1 ? 0 : prev + 1
-        // prev === images.length - 1 ? 0 : prev + 1
+        prev === items.length - 1 ? 0 : prev + 1
       );
-    }, 4000); // 3초마다 자동 변경
+    }, 4000);
 
-    return () => clearInterval(timer); // cleanup
-  }, [displayImgs, current]);
-  // }, [images, current]);
+    return () => clearInterval(timer);
+  }, [items, current]);
 
-  // if (!images.length) return <Wrapper />
-
+  if (!items.length) return null; // 데이터 없으면 아무것도 안 그림
+  
   return (
     <div style={{ padding: "0 20px"}}>
       <Wrapper>
-          {displayImgs.map((src, idx) => {
-          // {images.map((src, idx) => {
+          {items.map((items, idx) => {
               const isActive = idx === current;
               const isPrev = idx === prev;
-              return <Banner key={idx} src={src} active={isActive} fadingOut={isPrev} />
+              return (
+                <a
+                  key={items.id}
+                  href={items.detailUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Banner src={items.image_url} active={isActive} fadingOut={isPrev} />
+                </a>
+              )
       })}
-        <Indicator current={current + 1} total={displayImgs.length} />
-        {/* <Indicator current={current + 1} total={images.length} /> */}
+        <Indicator current={current + 1} total={items.length} />
       </Wrapper>
     </div>
   );

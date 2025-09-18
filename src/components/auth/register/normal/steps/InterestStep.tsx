@@ -31,7 +31,7 @@ const InterestStep = ({
                 />
             </RegisterContainer>
             <ButtonWrapper>
-                <BottomButton type="button" size="large" onClick={onNext}>다음</BottomButton>
+                <BottomButton type="button" size="large" onClick={onNext} disabled={selectedThemes.length === 0}>다음</BottomButton>
             </ButtonWrapper>
         </>
     )

@@ -29,7 +29,7 @@ const ProductShopPage = () => {
     const { state } = useLocation();
     const fallbackCategory = (state as AreaState)?.category;
 
-    const { data: product, isLoading } = useProduct(productId);
+    const { data: product } = useProduct(productId);
     const { data: me } = useSessionMe();
     const exchange = useExchangeProduct();
 

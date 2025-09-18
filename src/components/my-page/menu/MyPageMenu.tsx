@@ -3,13 +3,13 @@ import { MenuBox, MenuRow, MenuWrapper } from "./style";
 import type { MyPageListProps } from "./type";
 import Switch from "./Switch";
 import Social from "../../../assets/Social.svg";
-import Challenge from "../../../assets/Challenge.svg";
+import Challenge from "../../../assets/Challenge_ic.svg";
 import Noti from "../../../assets/Noti.svg";
-import Setting from "../../../assets/Setting.svg";
+import { IoIosSettings } from "react-icons/io";
 import { FaChevronRight } from "react-icons/fa";
 
 const defaultRoutes = {
-  community: "/my-page/community",
+  community: "/community",
   challenge: "/challenge",
   settings: "/my-page/settings",
 };
@@ -32,6 +32,7 @@ const MyPageMenu: React.FC<MyPageListProps> = ({
   };
   return (
     <MenuWrapper>
+      {/* TODO: 커뮤니티 관리 페이지 이동으로 수정 */}
       <MenuRow onClick={() => go(route.community)}>
         <MenuBox>
           <img src={Social} />
@@ -59,7 +60,7 @@ const MyPageMenu: React.FC<MyPageListProps> = ({
       </MenuRow>
       <MenuRow onClick={handleClickSettings}>
         <MenuBox>
-          <img src={Setting} />
+          <IoIosSettings size={26} color="gray"/>
           설정
         </MenuBox>
         <FaChevronRight color="#B7B7B7" />

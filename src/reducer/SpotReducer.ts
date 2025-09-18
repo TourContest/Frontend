@@ -6,8 +6,6 @@ export function spotReducer(state: SpotCreate, action: SpotAction): SpotCreate {
     case "SET_FIELD":
       // SpotCreate 키만 허용 (locationText는 별도 액션)
       return { ...state, [action.field]: action.value };
-    // case "SET_FIELD":
-    //   return { ...state, [action.field]: action.value };
     case "SET_COORDS":
       return { ...state, latitude: action.latitude, longitude: action.longitude };
     case "SET_LOCATION_TEXT":

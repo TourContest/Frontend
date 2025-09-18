@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { productApi, type ProductCategory } from "src/api/product";
+import { productApi } from "src/api/product";
 import { QK } from "src/utils/lib/queryKeys";
 
 type ExchangeVars = {

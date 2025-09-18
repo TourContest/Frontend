@@ -4,7 +4,7 @@ import type { ShortageProps } from "./type";
 import { MenuBox, MenuRow, MenuWrapper } from "../my-page/menu/style";
 import Shortage from '../../assets/hanlabong-shortage.svg';
 import Hanlabong from '../../assets/hanlabong.svg';
-import Challenge from '../../assets/Challenge.svg';
+import Challenge from '../../assets/Challenge_ic.svg';
 import Post from '../../assets/Edit.svg';
 
 const HanlabongShortageOverlay: React.FC<ShortageProps> = ({

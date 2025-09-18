@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import type { HanlabongPreview } from "src/components/inapp/type";
 
 export const calcHanlabong = (price: number, available: number): HanlabongPreview => {

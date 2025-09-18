@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import Home from "../../../assets/home.svg";
 import HomeActive from "../../../assets/Home_active.svg";
 import Challenge from "../../../assets/Challenge_gray.svg";
-import ChallengeActive from "../../../assets/Challenge.svg";
+import ChallengeActive from "../../../assets/Challenge_ic.svg";
 import Community from "../../../assets/Social_gray.svg";
 import CommunityActive from "../../../assets/Social.svg";
 import MyPage from "../../../assets/MyPage.svg";
@@ -49,7 +49,7 @@ const NavItem = styled(NavLink)`
   }
 `;
 
-const Icon = styled.img<{ active?: boolean }>`
+const Icon = styled.img<{ active?: boolean; }>`
   width: 32px;
   height: 32px;
   margin-bottom: 4px;
@@ -62,7 +62,9 @@ const BottomNavigation: React.FC = () => {
         <NavItem to="/main">
           {({ isActive }) => (
             <>
-              <Icon src={isActive ? HomeActive : Home} alt="홈" />
+              <Icon src={isActive ? HomeActive : Home} alt="홈" 
+                style={{ transform: isActive ? "scale(1)" : "scale(0.8)" }}
+              />
               <div>홈</div>
             </>
           )}

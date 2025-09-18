@@ -183,11 +183,6 @@ export const PaymentProductInfo = styled.div`
     & > div .price { ${({ theme }) => theme.colors.gray[600]}; }
 `;
 
-const fadeIn = keyframes`
-    from { opacity: 0; }
-    to { opacity: 1; }
-`;
-
 export const Back = styled.div`
     position: fixed; inset: 0;
     background: ${({ theme }) => theme.colors.bg[50]};

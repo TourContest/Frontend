@@ -8,11 +8,11 @@ type Props = {
 export default function Indicator({ current, total }: Props) {
   return (
     <Wrapper>
-      <Dots>
+      {/* <Dots>
         {Array.from({ length: total }, (_, i) => (
           <Dot key={i} active={i + 1 === current} />
         ))}
-      </Dots>
+      </Dots> */}
       <Counter>{current} / {total}</Counter>
     </Wrapper>
   );
@@ -31,18 +31,18 @@ const Wrapper = styled.div`
   z-index: 3;
 `;
 
-const Dots = styled.div`
-  display: flex;
-  gap: 8px;
-`;
+// const Dots = styled.div`
+//   display: flex;
+//   gap: 8px;
+// `;
 
-const Dot = styled.div<{ active?: boolean }>`
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: ${({ active }) => (active ? "orange" : "gray")};
-  transition: background 0.3s;
-`;
+// const Dot = styled.div<{ active?: boolean }>`
+//   width: 8px;
+//   height: 8px;
+//   border-radius: 50%;
+//   background: ${({ active }) => (active ? "orange" : "gray")};
+//   transition: background 0.3s;
+// `;
 
 const Counter = styled.div`
   position: absolute;

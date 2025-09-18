@@ -19,10 +19,10 @@ const SplashLogo = ({ onStart, onLoginClick }: SplashLogoProps) => {
                     지금 챌린지에 입장하세요! 
                 </Welcome>
             </SplashLogoWrapper>
-            <GoToLogin>
+            {/* <GoToLogin>
                 이미 계정이 있나요?
                 <span onClick={onLoginClick}>로그인</span>
-            </GoToLogin>
+            </GoToLogin> */}
             <ButtonWrapper>
                 <BottomButton
                     size ='large'

@@ -1,15 +1,16 @@
 import { Avatar, Date, Username } from "../PostCard/style";
 import { CommentContent, CommentItemWrapper, NicknameBox } from "./style";
 import type { SpotComment } from "./types";
-import Profile from '../../../assets/default_profile.svg';
 import { theme } from "src/styles/theme";
-import type { TbLineHeight } from "react-icons/tb";
 
 interface CommentItemProps {
   comment: SpotComment;
+  isPopup?: boolean;
+  onReply?: (parentId: number) => void;
 }
 
-const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
+const CommentItem: React.FC<CommentItemProps> = ({ comment, isPopup = false, onReply }) => {
+
     if (comment.isDeleted) {
         return (
             <CommentItemWrapper
@@ -31,7 +32,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
             }}
         >
             <Avatar>
-                <img src={Profile} />
+                <img src={comment.profileImageUrl} />
             </Avatar>
             <CommentContent>
                 <NicknameBox>
@@ -39,6 +40,10 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                     <Date>{comment.relativeTime}</Date>
                 </NicknameBox>
                 <div style={{ margin: "4px 0" }}>{comment.text}</div>
+                {/* 우선 원댓글에만 대댓글 달 수 있게 */}
+                {comment.depth === 0 && !isPopup && onReply && (
+                    <button onClick={() => onReply(comment.id)}>답글 달기</button>
+                )}
             </CommentContent>
         </CommentItemWrapper>
     )

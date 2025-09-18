@@ -1,24 +1,31 @@
 import PostCard from './PostCard';
 import { theme } from '../../styles/theme';
-import type { RootState } from '../../store';
 import { useSelector, useDispatch } from 'react-redux';
-import { setActiveTab, selectCurrentPagePosts } from '../../store/slices/communitySlice';
-import { useCommunity } from '../../context/community/CommunityContext';
 import { ContentContainer, PostsContainer, TabButton, TabContainer } from './style';
+import type { RootState } from 'src/redux/rootReducer';
+import { useEffect } from 'react';
+import { fetchLatestPosts, fetchPopularPosts } from 'src/redux/community/actions';
+import { setActiveTab } from 'src/redux/community/reducer';
 
 
 const CommunityContent: React.FC = () => {
   const dispatch = useDispatch();
-  const { activeTab, loading } = useSelector((state: RootState) => state.community);
-  const currentPagePosts = useSelector(selectCurrentPagePosts);
-  const { state: contextState } = useCommunity();
+  const { activeTab, loading, posts } = useSelector((state: RootState) => state.community);
 
+  useEffect(() => {
+    if (activeTab === 'latest') {
+      dispatch(fetchLatestPosts({ page: 0, size: 20 }) as any);
+    } else {
+      dispatch(fetchPopularPosts({ page: 0, size: 20 }) as any);
+    }
+  }, [activeTab, dispatch]);
+  
   const handleTabChange = (tab: 'latest' | 'popular') => {
     dispatch(setActiveTab(tab));
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div style={{ margin:'200px auto', textAlign: 'center' }}>불러오는 중...</div>;
   }
 
   return (
@@ -39,13 +46,12 @@ const CommunityContent: React.FC = () => {
       </TabContainer>
       <ContentContainer>  
         <PostsContainer>
-          {currentPagePosts && currentPagePosts.length > 0 ? (
-            currentPagePosts.map(post => (
+          {posts && posts.length > 0 ? (
+            posts.map(post => (
               <PostCard key={post.id} post={post} />
             ))
           ) : (
             <div style={{ color: theme.colors.gray[500], padding: '20px' }}>
-              {/* UI 없어서 예외처리 안하고 error toast 띄우고 진입 불가 만드는게 좋을지도 */}
               게시물이 없습니다.
             </div>
           )}

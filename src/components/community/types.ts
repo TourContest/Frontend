@@ -1,7 +1,17 @@
 import type { Validation } from "../commons/Inputs/TextField/types";
 
+export type BannerItem = {
+  id: number;
+  title: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  detailUrl: string;
+  image_url: string;
+};
+
 export type BannerSliderProps = {
-  images: string[]; // 부모에서 내려주는 이미지 배열
+  items: BannerItem[]; // 부모에서 내려주는 이미지 배열
 };
 
 export type ImgPickerProps = {

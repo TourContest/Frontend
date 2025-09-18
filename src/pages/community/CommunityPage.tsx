@@ -7,7 +7,9 @@ import PostsListTop from "src/components/community/PostsList/PostListTop";
 import { useNotification } from "src/features/my-page/useNotification";
 import BannerSlider from "src/components/community/PostsList/BannerSlider";
 import { useEffect, useState } from "react";
-import PostSearch from "src/components/community/PostsList/PostSearch";
+// import PostSearch from "src/components/community/PostsList/PostSearch";
+import type { BannerItem } from "src/components/community/types";
+import { communityApi } from "src/api/community";
 
 const ContentArea = styled.div`
   width: 100%;
@@ -27,10 +29,19 @@ const FloatingButtonContainer = styled.div`
 const CommunityPage: React.FC = () => {
   const { notiEnabled, toggleNoti } = useNotification();
 
-  const [bannerImg, setBannerImg] = useState<string[]>([]);
+  const [bannerImg, setBannerImg] = useState<BannerItem[]>([]);
 
   useEffect(() => {
-    // 크롤링 API 호출
+    async function fetchBanners() {
+      try {
+        const data = await communityApi.getBanners();
+          setBannerImg(data);
+      } catch (err) {
+        console.error("배너 불러오기 실패:", err);
+        setBannerImg([]);
+      }
+    }
+    fetchBanners();
   }, []);
 
   return (
@@ -41,9 +52,9 @@ const CommunityPage: React.FC = () => {
         onToggleNoti={toggleNoti}
       />
       <ContentArea>
-        <PostSearch />
+        {/* <PostSearch /> */}
         <PostsListTop />
-        <BannerSlider images={bannerImg} />
+        <BannerSlider items={bannerImg} />
         <CommunityContent />
       </ContentArea>
       <BottomNavigation />

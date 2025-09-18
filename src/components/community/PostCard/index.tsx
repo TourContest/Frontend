@@ -1,21 +1,28 @@
 import { useState } from 'react';
-import type { Post } from '../types';
-import { FiHeart, FiMessageCircle, FiMoreHorizontal } from 'react-icons/fi';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { formatDate } from 'src/utils/formDate';
 
 import ReportModal from '../../modal/ReportModal';
-import { useNavigate } from 'react-router-dom';
+
+import type { Spot } from 'src/reducer/types';
+import { communityApi } from 'src/api/community';
+import { updatePostLike } from 'src/redux/community/reducer';
+
+import { FiHeart, 
+  // FiMessageCircle, 
+FiMoreHorizontal } from 'react-icons/fi';
 import { ActionButton, ActionContent, ActionIcon, ActionSection, Avatar, CardContainer, CardContent, ContentSection, Date, ImageContainer, LocationIcon, LocationTag, LocationText, MoreButton, PostImage, PostSection, PostText, ProfileContent, ProfileInfo, ProfileSection, ReportButton, Username } from './style';
-import Profile from '../../../assets/default_profile.svg';
 
 interface PostCardProps {
-  post: Post;
+  post: Spot;
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [showReport, setShowReport] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
-  const [liked, setLiked] = useState(false);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleMoreClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -34,10 +41,20 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     // TODO: API 호출로 신고 처리
   };
 
-  const handleLike = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleLike = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    setLiked(prev => !prev);
-    // TODO: 좋아요 API 호출 처리
+    
+    try {
+      if (post.likedByMe) {
+        await communityApi.unlikeSpot(post.id);
+        dispatch(updatePostLike({ id: post.id, liked: false }));
+      } else {
+        await communityApi.likeSpot(post.id);
+        dispatch(updatePostLike({ id: post.id, liked: true }));
+      }
+    } catch (err) {
+      console.error("좋아요 처리 실패:", err);
+    }
   }
 
   return (
@@ -47,11 +64,11 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           <ProfileSection>
             <ProfileContent>
               <Avatar>
-                <img src={Profile} />
+                <img src={post.userProfile} />
               </Avatar>
               <ProfileInfo>
-                <Username>{post.username}</Username>
-                <Date>{post.date}</Date>
+                <Username>{post.userNickname}</Username>
+                <Date>{formatDate(post.createdAt)}</Date>
               </ProfileInfo>
             </ProfileContent>
             
@@ -68,23 +85,19 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
           
           <PostSection>              
-            <ImageContainer imageCount={post.images.length}>
-              {post.images.map((image, index) => (
-                <PostImage 
-                  key={index} 
-                  imageCount={post.images.length} 
-                  index={index}
-                />
+            <ImageContainer>
+              {post.imageUrls.map((image, index) => (
+                <PostImage key={index} image={image} />
               ))}
             </ImageContainer>
               <ContentSection>
                 <LocationTag>
                   <LocationIcon size={17} />
-                  <LocationText>{post.location}</LocationText>
+                  <LocationText>{post.name}</LocationText>
                 </LocationTag>
                 
                 <PostText>
-                  {post.content}
+                  {post.description}
                 </PostText>
               </ContentSection>
 
@@ -94,22 +107,22 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                   <ActionIcon>
                     <FiHeart 
                       size={20} 
-                      color={liked ? "#FF8B4C" : "currentColor"}
-                      fill={liked ? "#FF8B4C" : "none"}
+                      color={post.likedByMe ? "#FF8B4C" : "currentColor"}
+                      fill={post.likedByMe ? "#FF8B4C" : "none"}
                     />
                   </ActionIcon>
-                  <span>좋아요 {post.likes || 0}</span>
+                  <span>좋아요 {post.likeCount || 0}</span>
                 </ActionContent>
               </ActionButton>
               
-              <ActionButton onClick={e => e.stopPropagation()}>
+              {/* <ActionButton onClick={e => e.stopPropagation()}>
                 <ActionContent>
                   <ActionIcon>
                     <FiMessageCircle size={20} />
                   </ActionIcon>
                   <span>댓글 달기 {post.comments || 0}</span>
                 </ActionContent>
-              </ActionButton>
+              </ActionButton> */}
             </ActionSection>
           </PostSection>
         </CardContent>

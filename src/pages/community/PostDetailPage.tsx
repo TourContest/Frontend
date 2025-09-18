@@ -2,63 +2,91 @@ import styled from '@emotion/styled';
 import ImgSlider from 'src/components/community/PostDetail/ImgSlider';
 import BackHeader from 'src/components/commons/Header/BackHeader';
 import PostBox from 'src/components/community/PostDetail/PostBox';
-import { useSelector } from 'react-redux';
-import type { RootState } from 'src/redux/rootReducer';
 import { useParams } from 'react-router-dom';
-import { mapPostDetail } from 'src/components/community/PostDetail/types'; // API 연동시 지우기
 import CommentList from 'src/components/community/Comment/CommnentList';
-import { dummyComments } from 'src/components/community/Comment/dummyComment';
 import CommentInput from 'src/components/community/Comment/CommnetInput';
 import { useState } from 'react';
 import CommentPopup from 'src/components/popup/CommnetPopup';
+import { useSpotDetail } from 'src/features/spot/useSpotDetail';
+import { Title } from 'src/components/challenge-card/style';
+import { usePostComment, usePostReply } from 'src/features/spot/useComment';
+import { useAllComments } from 'src/features/spot/useAllComments';
 
 const ContentWrapper = styled.div``;
 
 const PostDetailPage:React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const post = useSelector((state: RootState) => 
-    state.community.posts.find((p) => p.id === Number(id))
-  );
+  const spotId = Number(id);
 
-  if (!post) return <div>포스트를 찾을 수 없습니다.</div>;
+  const { data: post, isLoading, isError } = useSpotDetail(spotId);
+  // const { data: commentData } = useComments(spotId);
+  const { comments, loading } = useAllComments(spotId);
 
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState('');
+  const [replyTarget, setReplyTarget] = useState<number | null>(null);
+
+  const { mutate: postComment } = usePostComment(spotId);
+  const { mutate: postReply } = usePostReply();
 
   const handleSubmit = (text: string) => {
-    console.log('댓글 등록', text)
+    if(replyTarget) {
+      console.log("submit replyTarget:", replyTarget);
+      postReply({ spotId, parentReplyId: replyTarget, text });
+      setReplyTarget(null);
+    } else {
+      postComment(text);
+    }
     setComment('');
     setOpen(false);
   }
 
-  // Post → PostDetail (뮤테이션시 삭제)
-  const detailPost = mapPostDetail(post);
+  if (isLoading) return <div>로딩중...</div>;
+  if (isError || !post) return <div>포스트를 찾을 수 없습니다.</div>;
 
   return (
     <>
       {/* TODO: 햄버거버튼 → 신고하기 기능 넣기(UI 없지만 List에서 재탕하기) */}
       <BackHeader />
       <ContentWrapper>
+        <Title style={{ paddingLeft: '20px'}}>{post.name}</Title>
         {/* 이미지 슬라이더 */}
-        <ImgSlider images={detailPost.imageUrls ?? []}/>
+        <ImgSlider images={post.imageUrls ?? []}/>
         {/* Detail */}
-        <PostBox post={detailPost}/>
+        <PostBox post={post}/>
       </ContentWrapper>
       {/* 이하 기존 댓글, 입력창 등은 그대로 유지 */}
-      <CommentList data={dummyComments}/>
+      <CommentList 
+        data={{ content: comments, totalElements: comments.length, hasNext: false }}
+        spotId={spotId}
+        onReply={(parentId) => {
+           console.log("setReplyTarget parentId:", parentId); 
+          setReplyTarget(parentId)
+          setOpen(true)
+        }}
+      />
       <CommentInput 
         value={comment}
         onChange={setComment}
         onSubmit={handleSubmit}
-        onFocus={() => setOpen(true)}
+        onFocus={() => {
+    if (replyTarget === null) { // ✅ 일반 댓글일 때만 팝업 열기
+      setOpen(true);
+    }
+  }}
       />
+
+      <div style={{ height: '100px' }}></div>
 
       {/* 댓글 팝업 */}
       <CommentPopup 
         open={open}
-        onClose={() => setOpen(false)}
-        comments={dummyComments.content} // 서버데이터로 바꾸기
-        onSubmit={handleSubmit} // API 연동
+        onClose={() => {
+          setReplyTarget(null);
+          setOpen(false)
+        }}
+        comments={{ content: comments, totalElements: comments.length, hasNext: false }} // 서버데이터로 바꾸기
+        spotId={spotId}
       />
     </>
   );

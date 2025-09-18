@@ -100,7 +100,7 @@ export const MenuWrapper = styled.div`
     box-shadow: 0 3px 16px 0 rgba(221, 221, 221, 0.3);
     margin: 30px 0;
 
-    & > div:first-child {
+    & > div:first-of-type {
         border-top-right-radius: 12px;
         border-top-left-radius: 12px;
     }
