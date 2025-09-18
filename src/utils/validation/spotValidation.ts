@@ -1,5 +1,5 @@
+import type { SpotCreate } from 'src/types/SpotTypes';
 import { z } from 'zod';
-import type { SpotFormState } from 'src/types/SpotTypes';
 
 export const spotFormSchema = z.object({
   locationText: z.string().trim().min(1, '위치를 입력해주세요.'),
@@ -8,7 +8,7 @@ export const spotFormSchema = z.object({
 
 export type SpotFieldErrors = Partial<Record<'locationText' | 'description', string>>;
 
-export function getSpotErrors(input: Pick<SpotFormState, 'locationText' | 'description'>): SpotFieldErrors {
+export function getSpotErrors(input: Pick<SpotCreate, 'name' | 'description'>): SpotFieldErrors {
   const r = spotFormSchema.safeParse(input);
   if (r.success) return {};
   const errs: SpotFieldErrors = {};

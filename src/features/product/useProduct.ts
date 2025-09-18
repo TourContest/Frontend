@@ -7,7 +7,7 @@ export const useProduct = (productId: string | number, enabled= true) => {
     return useQuery<Product>({
         queryKey: QK.product(productId ?? ''),
         enabled: Boolean(productId) && enabled,
-        queryFn: async ({ signal }) => {
+        queryFn: async () => {
             if (productId === null || String(productId) === '') throw new Error('productId가 없습니다.');
             const res = await productApi.getProductById(productId);
             return res.data.data;

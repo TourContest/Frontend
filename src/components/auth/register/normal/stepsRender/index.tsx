@@ -4,7 +4,6 @@ import { renderGenderStep } from "./renderGenderStep";
 import { renderPasswordStep } from "./renderPasswordStep";
 import { renderProfileSettingStep } from "./renderProfileSettingStep";
 import { renderInterestStep } from "./renderInterestStep";
-import { useState } from "react";
 
 export const renderRegisterStep =(
     step: number,

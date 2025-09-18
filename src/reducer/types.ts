@@ -15,3 +15,28 @@ export interface ChallengeState {
   doing: ChallengeCardData[];
   done: ChallengeCardData[];
 }
+
+export interface Spot {
+  id: number;
+  name: string;
+  description: string;
+  latitude: number;
+  longitude: number;
+  likeCount: number;
+  likedByMe: boolean;
+  imageUrls: string[];
+  userId: number;
+  userNickname: string;
+  userProfile: string;
+  type: "POST" | "SPOT" | "CHALLENGE";
+  challengeOngoing: boolean;
+  createdAt: string;
+}
+
+export interface SpotPage {
+  content: Spot[];
+  totalPages: number;
+  totalElements: number;
+  number: number;
+  size: number;
+}

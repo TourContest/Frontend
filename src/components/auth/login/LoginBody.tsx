@@ -12,7 +12,7 @@ type Props = {
 const LoginBody = ({ onValidityChange, onLoginDataChange }: Props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isSubmit, setIsSubmit] = useState(false);
+    const [_, setIsSubmit] = useState(false);
 
     const [emailValidation, setEmailValidation] = useState<Validation>('normal');
     const [passwordValidation, setPasswordValidation] = useState<Validation>('normal');

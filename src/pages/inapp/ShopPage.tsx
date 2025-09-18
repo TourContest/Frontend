@@ -9,12 +9,12 @@ import { ProductList } from "src/components/my-page/product/ProductList";
 import ChargePopup from "src/components/popup/ChargePopup";
 import { useProducts } from "src/features/product/useProducts";
 
-const CATEGORIES: ProductCategory[] = ["JEJU_TICON", "GOODS"];
+// const CATEGORIES: ProductCategory[] = ["JEJU_TICON", "GOODS"];
 
 const ShopPage = () => {
     const [category, setCategory] = useState<ProductCategory>("JEJU_TICON");
     const [popup, setPopup] = useState(false);   
-    const { products, isLoading, isError, error, refetch } = useProducts(category);
+    const { products, isLoading, isError } = useProducts(category);
 
     const navigate = useNavigate();
 

@@ -95,21 +95,31 @@ export const PostSection = styled.div`
     gap: 19px;
 `;
 
-export const ImageContainer = styled.div<{ imageCount: number }>`
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(${props => props.imageCount}, 1fr);
-    gap: 8px;
+export const ImageContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;  /* 가로 스크롤 */
+  padding-bottom: 8px;
+
+  /* 스크롤바 숨기기 (선택) */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;     /* Firefox */
 `;
 
-export const PostImage = styled.div<{ imageCount: number; index: number }>`
-    ${checkerBg}
-    background-color: ${theme.colors.gray[100]};
-    border: 1px solid ${theme.colors.gray[200]};
-    border-radius: 6px;
-    object-fit: cover;
-    background-position: center;
-    height: 130px; /* 고정 높이 */
+export const PostImage = styled.div<{ image: string }>`
+  ${checkerBg}
+  flex: 0 0 auto; /* 크기 고정 */
+  width: 130px;
+  height: 130px;
+  border-radius: 6px;
+  border: 1px solid ${theme.colors.gray[200]};
+  background-color: ${theme.colors.gray[100]};
+  background-position: center;
+  background-size: cover;
+  background-image: url(${(p) => p.image});
 `;
 
 export const ContentSection = styled.div`

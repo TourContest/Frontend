@@ -19,7 +19,6 @@ import ProductShopPage from "./pages/inapp/ProductDetailPage";
 import PasswordResetPage from "./pages/mypage/accountSetting/PasswordResetPage";
 import ThemeEditPage from "./pages/mypage/accountSetting/ThemeEditPage";
 import ProfileEditPage from "./pages/mypage/accountSetting/ProfileEditPage";
-import CommunityLayout from "./pages/community/CommunityLayout";
 import CommunityPage from "./pages/community/CommunityPage";
 import PostDetailPage from "./pages/community/PostDetailPage";
 import SpotWritePage from "./pages/community/PostWritePage";
@@ -74,11 +73,9 @@ function App() {
             />
 
             {/* community */}
-            <Route element={<CommunityLayout />}>
-              <Route path="/community" element={<CommunityPage />} />
-              <Route path="/post/:id" element={<PostDetailPage />} />
-              <Route path="/write" element={<SpotWritePage />} />
-            </Route>
+            <Route path="/community" element={<CommunityPage />} />
+            <Route path="/post/:id" element={<PostDetailPage />} />
+            <Route path="/write" element={<SpotWritePage />} />
 
             {/* my page*/}
             <Route path="/mypage" element={<MyPage />} />

@@ -9,9 +9,9 @@ export const MyPageContainer = styled.div`
 export const MyPageWrapper = styled.div`
     background: ${({ theme }) => theme.colors.bg[50]};
     padding: 20px;
-    // height: 100vh;
     flex: 1 1 auto; 
     min-block-size: 0;
+    padding-bottom: 90px;
 `;
 
 export const CouponDetailWrapper = styled.div`

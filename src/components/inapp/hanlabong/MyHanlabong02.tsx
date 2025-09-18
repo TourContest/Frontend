@@ -3,7 +3,7 @@ import Hanlabong from '../../../assets/hanlabong.svg';
 import { useSessionMe } from "src/features/my-page/useSessionMe";
 
 const MyHanlabong02 = () => {
-    const { data, error } = useSessionMe();
+    const { data } = useSessionMe();
 
     const hallabong = data?.hallabong;
     const display = hallabong != null ? hallabong.toLocaleString('ko-KR') : '-';

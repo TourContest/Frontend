@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { PaymentBox, PaymentImgWrapper, PaymentProductBox, PaymentProductInfo, ProductArea, RowBar } from "./style";
 import { useSessionMe } from "src/features/my-page/useSessionMe";
-import { useQueryClient } from "@tanstack/react-query";
+// import { useQueryClient } from "@tanstack/react-query";
 import type { PaymentProps02 } from "./type";
 import { CATEGORY_LABEL } from "./ProductDetail";
 import AutoHanlabongField from "./AutoHanlabongFiled";
@@ -15,11 +15,11 @@ export const Payment: React.FC<PaymentProps02> = ({ product, fallbackCategory })
     const label = fallbackCategory ? CATEGORY_LABEL[fallbackCategory] : "상품";
 
     const safePrice = product.hallabongCost ?? 0;
-    const priceMissing = product.hallabongCost === null;
+    // const priceMissing = product.hallabongCost === null;
 
-    const [preview, setPreview] = useState({ applied: 0, cashToPay: 0, shortage: 0 });
+    const [_, setPreview] = useState({ applied: 0, cashToPay: 0, shortage: 0 });
 
-    const qc = useQueryClient();
+    // const qc = useQueryClient();
 
     return (
         <>

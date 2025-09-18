@@ -1,8 +1,14 @@
 import styled from '@emotion/styled';
 import { theme } from 'src/styles/theme';
+import { ButtonWrapper } from 'src/components/auth/login/login.style';
+
 import { useReducer, useState } from 'react';
-import { initialSpot, spotReducer } from 'src/reducer/SpotReducer';
+import { useSpotValidation } from 'src/features/spot/useSpotFormValidation';
+import { useCreateSpot } from 'src/features/spot/useCreateSpot';
 import type { SpotCreate } from 'src/types/SpotTypes';
+
+import { initialSpot, spotReducer } from 'src/reducer/SpotReducer';
+
 import BackHeader from 'src/components/commons/Header/BackHeader';
 import ImgPicker from 'src/components/community/Spot/ImgPicker';
 import LocationField from 'src/components/community/Spot/LocationFeild';
@@ -10,12 +16,10 @@ import TextField from 'src/components/community/Spot/TextField';
 import ThemeField from 'src/components/community/Spot/ThemeField';
 import HashTagField from 'src/components/community/Spot/HashTagField';
 import ErrorToast from 'src/components/commons/Toast';
-import { ButtonWrapper } from 'src/components/auth/login/login.style';
 import BottomButton from 'src/components/commons/Buttons/BottomButton';
-import { useSpotValidation } from 'src/features/spot/useSpotFormValidation';
 import PostSuccessModal from 'src/components/modal/PostSuccessModal';
 import LocationModal from 'src/components/modal/LocationModal';
-import { useCreateSpot } from 'src/features/spot/useCreateSpot';
+
 
 const ContentWrapper = styled.form`
   padding: 30px 0 0 0;

@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { authApi } from "src/api/auth";
 import RegisterChoiceButton from "src/components/splash/RegisterChoiceButton";
 
 const RegisterChoicePage = () => {

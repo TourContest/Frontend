@@ -22,7 +22,7 @@ export function renderEmailStep(
 
                 await handleSendAuthCode();
             } else {
-                dispatch({ type: 'SET_EMAIL_ERROR', message: res.data?.message || '이미 사용중인 이메일입니다.'})
+                dispatch({ type: 'SET_EMAIL_ERROR', message: '이미 사용중인 이메일입니다.'})
             }
         } catch(err) {
             console.error(err);
@@ -62,19 +62,19 @@ export function renderEmailStep(
     return (
         <EmailStep 
             email={state.email}
-                authCode={state.authCode}
-                isEmailValid={state.isEmailValid}
-                isDuplicateChecked={state.isDuplicateChecked}
-                showAuthInput={state.showAuthInput}
-                authPassed={state.authPassed}
-                emailErrorMessage={state.emailError}
-                authErrorMessage={state.authError}
-                onChangeEmail={(value) => dispatch({ type: 'SET_EMAIL', value })}
-                onChangeAuthCode={(value) => dispatch({ type: 'SET_AUTH_CODE', value })}
-                onEmailBlur={() => dispatch({ type: 'VALIDATE_EMAIL' })}
-                onCheckDuplicate={handleCheckDuplicate}
-                onConfirmAuth={handleConfirmAuth}
-                onNext={onNext}
+            authCode={state.authCode}
+            isEmailValid={state.isEmailValid}
+            isDuplicateChecked={state.isDuplicateChecked}
+            showAuthInput={state.showAuthInput}
+            authPassed={state.authPassed}
+            emailErrorMessage={state.emailError}
+            authErrorMessage={state.authError}
+            onChangeEmail={(value) => dispatch({ type: 'SET_EMAIL', value })}
+            onChangeAuthCode={(value) => dispatch({ type: 'SET_AUTH_CODE', value })}
+            onEmailBlur={() => dispatch({ type: 'VALIDATE_EMAIL' })}
+            onCheckDuplicate={handleCheckDuplicate}
+            onConfirmAuth={handleConfirmAuth}
+            onNext={onNext}
         />
     )
 }

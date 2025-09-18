@@ -6,7 +6,7 @@ import { useSessionMe } from "src/features/my-page/useSessionMe";
 type Props = { onChargeClick?: () => void };
 
 const MyHanlabong = ({ onChargeClick }: Props) => {
-    const { data, error } = useSessionMe();
+    const { data } = useSessionMe();
 
     const hallabong = data?.hallabong;
     const display = hallabong != null ? hallabong.toLocaleString('ko-KR') : '-';

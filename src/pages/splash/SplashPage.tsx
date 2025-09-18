@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SplashLogo from "src/components/splash/SplashLogo";
 
 const SplashPage = () => {
     const navigate = useNavigate();
-    const [started, setStarted] = useState(false);
+    const [_, setStarted] = useState(false);
 
     const handleStart = () => {
         setStarted(true);

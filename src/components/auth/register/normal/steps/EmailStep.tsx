@@ -84,7 +84,7 @@ const EmailStep = ({
             </RegisterContainer>
             <ButtonWrapper>
                 <BottomButton disabled size="small">이전</BottomButton>
-                <BottomButton size="medium" type="button" onClick={onNext}>다음</BottomButton>
+                <BottomButton size="medium" type="button" onClick={onNext} disabled={!authPassed}>다음</BottomButton>
             </ButtonWrapper>
         </>
     )
