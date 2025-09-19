@@ -1,4 +1,6 @@
-import { GoToLogin, SplashLogoWrapper, Welcome } from "./splash.style";
+import { 
+    // GoToLogin, 
+SplashLogoWrapper, Welcome } from "./splash.style";
 import { ButtonWrapper } from "../auth/login/login.style";
 import Logo from '../../assets/Logo.svg';
 import BottomButton from "../commons/Buttons/BottomButton";
@@ -8,7 +10,9 @@ interface SplashLogoProps {
     onLoginClick: () => void;
 };
 
-const SplashLogo = ({ onStart, onLoginClick }: SplashLogoProps) => {
+const SplashLogo = ({ onStart, 
+    // onLoginClick 
+}: SplashLogoProps) => {
     return (
         <>
             <SplashLogoWrapper>

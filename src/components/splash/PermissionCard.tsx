@@ -32,7 +32,7 @@ const PermissionCard = ({ onAllow }: PermissionCardProps) => {
                             <li key={item.key}>
                                 <PermissionLeft>
                                     <img src={item.icon} alt={item.title} width={32}/>
-                                    <div style={{ width: "50px"}}>{item.title}</div>
+                                    <div>{item.title}</div>
                                 </PermissionLeft>
                                 <div>{item.description}</div>
                             </li>

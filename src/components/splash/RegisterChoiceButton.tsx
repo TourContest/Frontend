@@ -1,6 +1,8 @@
-import { EmailRegisterBtn, KaKaoBtn, RegisterButtonWrapper, SplashLogoWrapper, Welcome } from "./splash.style";
+import { EmailRegisterBtn, 
+    // KaKaoBtn, 
+RegisterButtonWrapper, SplashLogoWrapper, Welcome } from "./splash.style";
 import Logo from '../../assets/Logo.svg';
-import KaKao from '../../assets/kakao_login_large_wide.png';
+// import KaKao from '../../assets/kakao_login_large_wide.png';
 import { useNavigate } from "react-router-dom";
 
 interface RegisterChoiceButtonProps {

@@ -7,7 +7,7 @@ export function useSpotValidation(spot: SpotCreate, dispatch: React.Dispatch<any
 
   const validate = useCallback(() => {
     const e = getSpotErrors({
-      locationText: spot.name,
+      name: spot.name,
       description:  spot.description ?? '',
     });
     setErrors(e);
@@ -16,14 +16,14 @@ export function useSpotValidation(spot: SpotCreate, dispatch: React.Dispatch<any
 
   const onChangeLocation = useCallback((text: string) => {
     dispatch({ type: 'SET_LOCATION_TEXT', value: text });
-    if (errors.locationText && text.trim()) {
+    if (errors.name && text.trim()) {
       setErrors(p => ({ ...p, locationText: undefined }));
     }
-  }, [dispatch, errors.locationText]);
+  }, [dispatch, errors.name]);
 
   const onChangeDescription = useCallback((v: string) => {
     dispatch({ type: 'SET_FIELD', field: 'description', value: v });
-    if (errors.description && v.trim()) {
+    if (errors.name && v.trim()) {
       setErrors(p => ({ ...p, description: undefined }));
     }
   }, [dispatch, errors.description]);

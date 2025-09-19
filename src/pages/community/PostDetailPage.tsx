@@ -20,7 +20,7 @@ const PostDetailPage:React.FC = () => {
 
   const { data: post, isLoading, isError } = useSpotDetail(spotId);
   // const { data: commentData } = useComments(spotId);
-  const { comments, loading } = useAllComments(spotId);
+  const { comments } = useAllComments(spotId);
 
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState('');

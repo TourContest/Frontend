@@ -270,7 +270,12 @@ export default function ProfileSheet({
             </S.ChevronRight>
           </S.ListItem>
 
-          <S.ListItem role="button">
+          <S.ListItem role="button"
+            onClick={() => {
+              navigate("/inapp/shop");
+              onClose?.();
+            }}
+          >
             <S.StoreIcon />
             <S.ListText>상점 바로가기</S.ListText>
             <S.ChevronRight viewBox="0 0 24 24">

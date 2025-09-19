@@ -4,10 +4,13 @@ import { ButtonWrapper } from "../../../login/login.style";
 import BottomButton from "src/components/commons/Buttons/BottomButton";
 import type { EmailStepProps } from "../types";
 import { Head3 } from "src/styles/typography";
+import { useNavigate } from "react-router-dom";
 
 const EmailStep = ({
     email, authCode, isEmailValid, isDuplicateChecked, showAuthInput, authPassed, emailErrorMessage, authErrorMessage, onChangeEmail, onChangeAuthCode, onEmailBlur, onCheckDuplicate, onConfirmAuth, onNext
 }: EmailStepProps) => {
+    const navigate = useNavigate();
+
     const isEmailFilled = email.trim() !== '';
 
     const emailValidation: 'positive' | 'negative' | 'normal' =
@@ -83,7 +86,7 @@ const EmailStep = ({
                 </AuthFieldWrapper>
             </RegisterContainer>
             <ButtonWrapper>
-                <BottomButton disabled size="small">이전</BottomButton>
+                <BottomButton size="small" onClick={() => navigate(-1)}>이전</BottomButton>
                 <BottomButton size="medium" type="button" onClick={onNext} disabled={!authPassed}>다음</BottomButton>
             </ButtonWrapper>
         </>

@@ -16,7 +16,7 @@ export default function Main() {
 
   return (
     <div>
-      <KaKaoMap appKey={import.meta.env.VITE_KAKAO_JS_KEY} />
+      <KaKaoMap appKey={import.meta.env.VITE_KAKAO_API_KEY} />
       <CheckInModal
         open={open}
         day={state.day}

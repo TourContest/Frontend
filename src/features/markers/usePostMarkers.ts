@@ -29,9 +29,9 @@ export function usePostMarkers(fetchPosts: () => Promise<PostRecord[]>) {
           .map((p) => {
             const level =
               p.likes >= LIKE_TO_CHALLENGE
-                ? "challenge"
+                ? "CHALLENGE"
                 : p.likes >= LIKE_TO_SPOT
-                  ? "spot"
+                  ? "SPOT"
                   : null;
             if (!level) return null;
             return {

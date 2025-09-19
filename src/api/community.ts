@@ -59,7 +59,10 @@ export const communityApi = {
     const res = await api.get<BannerItem[]>("/api/community/events/banner", {
       params: date ? { date } : undefined,
     });
-    return res.data;
+    const data = res.data;
+
+    // 응답이 배열이 아니면 빈 배열
+    return Array.isArray(data) ? data: [];
   },
 
   // 상세

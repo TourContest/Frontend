@@ -78,12 +78,12 @@ const PostWritePage = () => {
     e.preventDefault();
     const errs = validate();
 
-    if (errs.locationText || errs.description) {
+    if (errs.name || errs.description) {
       // 둘 다 에러
-      if (errs.locationText && errs.description) showError('위치와 내용을 입력해주세요.');
+      if (errs.name && errs.description) showError('위치와 내용을 입력해주세요.');
       // 하나만 에러
-      if (errs.locationText && !errs.description) { showError(errs.locationText); return; }
-      if (!errs.locationText && errs.description) { showError(errs.description); return; }
+      if (errs.name && !errs.description) { showError(errs.name); return; }
+      if (!errs.name && errs.description) { showError(errs.description); return; }
       return;
     };
     
@@ -111,7 +111,7 @@ const PostWritePage = () => {
               value={spot.name || ''}
               onChange={(text) => dispatch({ type: "SET_LOCATION_TEXT", value: text })}
               openModal={() => setLocationModalOpen(true)}
-              message={errors.locationText}
+              message={errors.name}
             />
           </Section>
 

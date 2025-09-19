@@ -246,7 +246,7 @@ export default function KaKaoMap({
   const [profileOpen, setProfileOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<{
     id: string;
-    level: "spot" | "challenge";
+    level: "SPOT" | "POST" | "CHALLENGE";
     lat?: number;
     lng?: number;
   } | null>(null);
@@ -294,7 +294,7 @@ export default function KaKaoMap({
         onCancel={dismissCert}
         onConfirm={() => {
           if (certTarget) {
-            setSelectedItem({ id: String(certTarget.id), level: "challenge" });
+            setSelectedItem({ id: String(certTarget.id), level: "CHALLENGE" });
             setCameraOpen(true);
           }
           dismissCert();
@@ -314,14 +314,14 @@ export default function KaKaoMap({
         open={cameraOpen}
         onClose={() => setCameraOpen(false)}
         challengeId={
-          selectedItem?.level === "challenge" ? selectedItem?.id : undefined
+          selectedItem?.level === "CHALLENGE" ? selectedItem?.id : undefined
         }
         lat={lat ?? undefined}
         lng={lng ?? undefined}
         targetLat={selectedItem?.lat}
         targetLng={selectedItem?.lng}
         onConfirm={() => {
-          if (selectedItem?.level === "challenge") {
+          if (selectedItem?.level === "CHALLENGE") {
             dispatch(completeChallenge(String(selectedItem.id)));
             window.dispatchEvent(new CustomEvent("me:refresh"));
             window.dispatchEvent(new CustomEvent("challenge:refresh"));

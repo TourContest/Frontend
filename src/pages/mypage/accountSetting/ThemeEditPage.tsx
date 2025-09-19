@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ButtonWrapper, Wrapper } from "src/components/auth/login/login.style";
 import BottomButton from "src/components/commons/Buttons/BottomButton";
 import InterestForm from "src/components/commons/Forms/interestForm";
@@ -9,6 +10,8 @@ import { useChangeThemes } from "src/features/user/useChangeThemes";
 const ThemeEditPage:React.FC = () => {
     const { data: me } = useSessionMe();
     const { mutate: submitChangeThemes, isPending } = useChangeThemes();
+
+    const navigate = useNavigate();
 
     const [selected, setSelected] = useState<string[]>([]);
 
@@ -27,7 +30,8 @@ const ThemeEditPage:React.FC = () => {
 
     const handleSave = () => {
         console.log('[ThemeEditPage] save click', selected); 
-        submitChangeThemes({ themes: selected })
+        submitChangeThemes({ themes: selected });
+        navigate('/mypage');
     };
 
     return (

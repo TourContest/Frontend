@@ -21,7 +21,7 @@ export function makeMockSpotsAround(
       id: `mock-${Date.now()}-${i}`,
       lat: centerLat + dLat,
       lng: centerLng + dLng,
-      level: isChallenge ? "challenge" : "spot",
+      level: isChallenge ? "CHALLENGE" : "SPOT",
       themes: [],
       title: isChallenge ? `목 챌린지 ${i + 1}` : `목 스팟 ${i + 1}`,
       thumb: undefined,
